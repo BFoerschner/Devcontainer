@@ -3,4 +3,5 @@ apt-get install -y \
   ncdu \
   direnv \
   pipx \
-  fd-find
+  fd-find \
+  rustup

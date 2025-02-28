@@ -60,3 +60,6 @@
 - [dive](https://github.com/wagoodman/dive)
   Docker filesystem viewer
   - zsh docker alias
+- [fd](https://github.com/sharkdp/fd)
+  Alternative to find
+  - apt

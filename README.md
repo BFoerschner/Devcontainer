@@ -69,3 +69,6 @@
 - [eza](https://github.com/eza-community/eza)
   eza is a modern alternative for ls
   - cargo
+- [duf](https://github.com/muesli/duf)
+  modern df alternative
+  - apt

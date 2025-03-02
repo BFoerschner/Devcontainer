@@ -1,3 +1,3 @@
 #!/bin/bash
 
-apt install -y pipx && pipx install jrnl
+pipx install jrnl

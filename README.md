@@ -75,7 +75,9 @@
 - [dust](https://github.com/bootandy/dust)
   modern du alternative
   - cargo
-  - [httpie](https://github.com/httpie/cli)
+- [httpie](https://github.com/httpie/cli)
   cli http rest client
   - pipx
-
+- [doggo](https://github.com/mr-karan/doggo)
+  doggo is a modern command-line DNS client (like dig) 
+  - go install

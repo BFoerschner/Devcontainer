@@ -4,4 +4,6 @@ apt-get install -y \
   ripgrep \
   ncdu \
   direnv \
-  duf
+  duf \
+  pass \
+  pass-extension-otp

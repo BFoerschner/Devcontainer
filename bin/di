@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker images --format "{{.Repository}}:{{.Tag}} {{.ID}}" | fzf | awk '{print $NF}'

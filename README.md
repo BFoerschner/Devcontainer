@@ -74,4 +74,8 @@
   - apt
 - [dust](https://github.com/bootandy/dust)
   modern du alternative
-- cargo
+  - cargo
+  - [httpie](https://github.com/httpie/cli)
+  cli http rest client
+  - pipx
+

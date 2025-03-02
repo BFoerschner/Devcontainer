@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 
-cargo install eza
-cargo install du-dust
+/root/.cargo/bin/cargo install \
+  eza \
+  du-dust
+
+ln -s /usr/bin/dust ~/.local/bin/du

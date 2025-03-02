@@ -7,3 +7,5 @@ apt-get install -y \
   duf \
   pass \
   pass-extension-otp
+
+ln -s /usr/bin/duf ~/.local/bin/df

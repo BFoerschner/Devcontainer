@@ -16,6 +16,7 @@ RUN add-apt-repository ppa:longsleep/golang-backports
 RUN apt-get update 
 RUN apt-get install unminimize && yes | unminimize
 RUN apt-get install -y \
+  apt-utils \
   zsh \
   tmux \
   stow \
@@ -38,6 +39,9 @@ RUN apt-get install -y \
   perl \
   man \
   pipx
+
+# install rust toolchain
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
 
 # install uv, installing python tools properly
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh && rm $HOME/.zshrc

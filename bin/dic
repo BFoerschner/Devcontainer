@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [[ "$1" == "--image" ]]; then
+  docker ps --format "{{.Names}} {{.Image}}" | fzf | awk '{print $1}'
+else
+  docker ps --format "{{.Names}} {{.Image}}" | fzf | awk '{print $2}'
+fi

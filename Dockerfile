@@ -36,7 +36,8 @@ RUN apt-get install -y \
   lua5.4 \
   luarocks \
   perl \
-  man
+  man \
+  pipx
 
 # install uv, installing python tools properly
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh && rm $HOME/.zshrc

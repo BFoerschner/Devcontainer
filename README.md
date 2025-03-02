@@ -9,7 +9,7 @@
 ## Command to run
 
 ```bash
-docker run -v $HOME/.ssh/:/root/.ssh:ro -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/:/root/host -e LANG="C.UTF-8" -e LC_ALL="C.UTF-8" --name devcon -it ghcr.io/bfoerschner/devcontainer:build
+docker run -v $HOME/.ssh/:/root/.ssh:ro -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/:/root/host -e LANG="C.UTF-8" -e LC_ALL="C.UTF-8" --rm -it ghcr.io/bfoerschner/devcontainer:build
 ```
 
 ## Tools available

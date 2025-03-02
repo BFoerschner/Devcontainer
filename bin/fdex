@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# list running containers and exec bash into them
+CONTAINER=$(docker ps | rg -v CONTAINER | awk '-F ' ' {print $NF}' | fzf)
+if [ -n "$CONTAINER" ]; then
+  docker exec -it "$CONTAINER" bash
+fi

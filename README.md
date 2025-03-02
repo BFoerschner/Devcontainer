@@ -62,4 +62,7 @@
   - zsh docker alias
 - [fd](https://github.com/sharkdp/fd)
   Alternative to find
-  - apt
+  - apt + symlink /usr/bin/fdfind -> ~/.local/bin/fd
+- [bat](https://github.com/sharkdp/bat)
+  A cat clone with syntax highlighting and Git integration
+  - apt + symlink /usr/bin/batcat -> ~/.local/bin/bat

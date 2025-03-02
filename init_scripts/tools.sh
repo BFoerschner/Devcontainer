@@ -1,7 +1,8 @@
+#!/usr/bin/env
+
 apt-get install -y \
   ripgrep \
   ncdu \
   direnv \
   pipx \
-  fd-find \
   rustup

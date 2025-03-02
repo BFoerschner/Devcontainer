@@ -8,7 +8,9 @@ name: Docker
 on:
   schedule:
     - cron: '45 11 * * *'
-
+  push:
+    branches:
+      - build
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io

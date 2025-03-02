@@ -4,4 +4,4 @@
   eza \
   du-dust
 
-ln -s /usr/bin/dust ~/.local/bin/du
+ln -s /root/.cargo/bin/dust /root/.local/bin/du

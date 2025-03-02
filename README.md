@@ -66,3 +66,6 @@
 - [bat](https://github.com/sharkdp/bat)
   A cat clone with syntax highlighting and Git integration
   - apt + symlink /usr/bin/batcat -> ~/.local/bin/bat
+- [eza](https://github.com/eza-community/eza)
+  eza is a modern alternative for ls
+  - cargo

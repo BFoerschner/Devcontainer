@@ -48,7 +48,7 @@ RUN git clone https://github.com/BFoerschner/dotfiles $HOME/.dotfiles && cd $HOM
 # Install tools from init_scripts folder
 RUN chmod +x $HOME/init.sh && chmod -R +x $HOME/init_scripts
 RUN $HOME/init.sh
-RUN rm -rf $HOME/init_scripts && rm $HOME/init.sh
+# RUN rm -rf $HOME/init_scripts && rm $HOME/init.sh
 
 # change shell to zsh
 RUN chsh -s /bin/zsh

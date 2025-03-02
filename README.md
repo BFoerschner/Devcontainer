@@ -1,5 +1,17 @@
 # Devcontainer (tmux based workflow)
 
+<!--toc:start-->
+- [Devcontainer (tmux based workflow)](#devcontainer-tmux-based-workflow)
+  - [Command to run](#command-to-run)
+  - [Tools available](#tools-available)
+<!--toc:end-->
+
+## Command to run
+
+```bash
+docker run -v $HOME/.ssh/:/root/.ssh:ro -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/:/root/host -e LANG="C.UTF-8" -e LC_ALL="C.UTF-8" --name devcon -it ghcr.io/bfoerschner/devcontainer:build
+```
+
 ## Tools available
 
 - [visidata](https://www.visidata.org/)

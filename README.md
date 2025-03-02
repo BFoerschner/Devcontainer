@@ -72,3 +72,6 @@
 - [duf](https://github.com/muesli/duf)
   modern df alternative
   - apt
+- [dust](https://github.com/bootandy/dust)
+  modern du alternative
+- cargo

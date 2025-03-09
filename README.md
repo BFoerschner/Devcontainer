@@ -1,10 +1,11 @@
 # Devcontainer (tmux based workflow)
 
 <!--toc:start-->
+
 - [Devcontainer (tmux based workflow)](#devcontainer-tmux-based-workflow)
   - [Command to run](#command-to-run)
   - [Tools available](#tools-available)
-<!--toc:end-->
+  <!--toc:end-->
 
 ## Command to run
 
@@ -91,5 +92,8 @@ docker run -v $HOME/.ssh/:/root/.ssh:ro -v /var/run/docker.sock:/var/run/docker.
   cli http rest client
   - pipx
 - [doggo](https://github.com/mr-karan/doggo)
-  doggo is a modern command-line DNS client (like dig) 
+  doggo is a modern command-line DNS client (like dig)
+  - go install
+- [lazydocker](https://github.com/jesseduffield/lazydocker)
+  A simple terminal UI for both docker and docker-compose
   - go install

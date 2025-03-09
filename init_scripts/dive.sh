@@ -12,3 +12,4 @@ fi
 
 wget "$URL" -O ~/dive.deb
 apt install ~/dive.deb
+rm ~/dive.deb

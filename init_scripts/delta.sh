@@ -15,3 +15,4 @@ mkdir -p ~/delta && tar -xf ~/delta.tar.gz -C ~/delta --strip-components 1
 chmod +x ~/delta/delta
 mv ~/delta/delta ~/.local/bin/delta
 rm ~/delta.tar.gz
+rm -rf ~/delta

@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 VERSION=$(curl -s "https://api.github.com/repos/mitmproxy/mitmproxy/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
 ARCH=$(uname -i)
 

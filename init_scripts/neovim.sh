@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SLEEP_SECONDS=60
 
@@ -22,6 +22,7 @@ LSP_CFG=(
   "shellcheck"
   "eslint-lsp"
   "goimports"
+  "prettier"
   "marksman"
   "json-lsp"
   "hadolint"

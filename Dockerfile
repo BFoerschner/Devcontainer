@@ -17,6 +17,7 @@ RUN apt-get update
 RUN apt-get install unminimize && yes | unminimize
 RUN apt-get install -y \
   apt-utils \
+  gnupg \
   zsh \
   tmux \
   stow \
@@ -27,6 +28,7 @@ RUN apt-get install -y \
   docker.io \
   unzip \
   build-essential \
+  libudev-dev \
   cmake \
   nodejs \
   npm \
@@ -38,7 +40,8 @@ RUN apt-get install -y \
   luarocks \
   perl \
   man \
-  pipx
+  pipx \
+  tidy
 
 # install rust toolchain
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 apt install -y unixodbc
 source "$HOME/.local/bin/env"

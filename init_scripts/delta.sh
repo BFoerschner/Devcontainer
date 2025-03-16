@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 VERSION=$(curl -s "https://api.github.com/repos/dandavison/delta/releases" | \grep -Po '"tag_name": *"\K[^"]*' | head -n1)
 ARCH=$(uname -i)
 

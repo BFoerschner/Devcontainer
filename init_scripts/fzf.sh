@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -f ~/.zshrc ]; then
   mv ~/.zshrc ~/.zshrc.bak

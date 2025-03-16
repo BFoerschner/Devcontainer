@@ -97,3 +97,6 @@ docker run -v $HOME/.ssh/:/root/.ssh:ro -v /var/run/docker.sock:/var/run/docker.
 - [lazydocker](https://github.com/jesseduffield/lazydocker)
   A simple terminal UI for both docker and docker-compose
   - go install
+- [mmv](https://github.com/itchyny/mmv)
+  mass rename files with $EDITOR
+  - go install

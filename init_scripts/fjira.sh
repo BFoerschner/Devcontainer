@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 VERSION=$(curl -s "https://api.github.com/repos/mk-5/fjira/releases/latest" | \grep -Po '"tag_name": *"\K[^"]*')
 ARCH=$(uname -i)
 

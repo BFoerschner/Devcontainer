@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Dependencies
-apt install -y \
+apt-get install -y \
   libavahi-client3 \
   libavahi-common-data \
   libavahi-common3 \

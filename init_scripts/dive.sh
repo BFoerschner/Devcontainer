@@ -11,5 +11,5 @@ elif [[ $ARCH == arm* ]] || [[ $ARCH == aarch* ]]; then
 fi
 
 wget "$URL" -O ~/dive.deb
-apt install ~/dive.deb
+apt-get install ~/dive.deb
 rm ~/dive.deb

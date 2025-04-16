@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # dependencies
-apt install -y \
+apt-get install -y \
   expat \
   libxml2-dev \
   pkg-config \
@@ -15,4 +15,4 @@ apt install -y \
   libfontconfig1-dev \
   g++
 
-/root/.cargo/bin/cargo install silicon
+"$HOME"/.cargo/bin/cargo install silicon

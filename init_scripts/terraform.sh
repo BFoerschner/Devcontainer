@@ -26,4 +26,4 @@ https://apt.releases.hashicorp.com $(lsb_release -cs) main" |
   tee /etc/apt/sources.list.d/hashicorp.list
 
 # Download the package information from HashiCorp and install terraform
-apt update && apt install -y terraform
+apt-get update && apt-get install -y terraform

@@ -14,7 +14,15 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
+zinit light birdhackor/zsh-eza-ls-plugin
 autoload -Uz compinit && compinit
+
+# Terraform autocomplete
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C "$(which terraform)" terraform
 
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
@@ -34,7 +42,3 @@ zinit snippet OMZP::git-commit
 
 # reload snippets every new shell
 zinit cdreplay -q
-
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab

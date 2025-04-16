@@ -3,11 +3,17 @@
 apt-get update && apt-get install -y software-properties-common
 
 add-apt-repository -y ppa:neovim-ppa/unstable
+apt-get update && apt-get install -y neovim
+
 add-apt-repository -y ppa:longsleep/golang-backports
+apt-get update && apt-get install -y golang-go
+
 add-apt-repository -y ppa:lepapareil/hurl
+apt-get update && apt-get install -y hurl
 
 apt-get update && apt-get install -y \
   unminimize \
+  dialog \
   apt-utils \
   gnupg \
   zsh \
@@ -15,7 +21,6 @@ apt-get update && apt-get install -y \
   stow \
   git \
   sudo \
-  neovim \
   curl \
   wget \
   docker.io \
@@ -28,14 +33,12 @@ apt-get update && apt-get install -y \
   python3 \
   python3-pip \
   python3-venv \
-  golang-go \
   lua5.4 \
   luarocks \
   perl \
   man \
   pipx \
   tidy \
-  hurl \
   pandoc
 
 yes | unminimize

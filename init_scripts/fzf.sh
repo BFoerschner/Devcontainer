@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-if [ -f ~/.zshrc ]; then
-  mv ~/.zshrc ~/.zshrc.bak
+if [ -f "$HOME"/.zshrc ]; then
+  mv "$HOME"/.zshrc "$HOME"/.zshrc.bak
 fi
 
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &&
-  ~/.fzf/install --bin &&
-  mv ~/.fzf/bin/fzf /usr/local/bin/fzf
-rm -rf ~/.fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME"/.fzf &&
+  "$HOME"/.fzf/install --bin &&
+  mv "$HOME"/.fzf/bin/fzf /usr/local/bin/fzf
+rm -rf "$HOME"/.fzf
 
-if [ -f ~/.zshrc.bak ]; then
-  mv ~/.zshrc.bak ~/.zshrc
+if [ -f "$HOME"/.zshrc.bak ]; then
+  mv "$HOME"/.zshrc.bak "$HOME"/.zshrc
 fi

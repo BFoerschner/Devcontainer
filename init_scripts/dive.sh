@@ -10,6 +10,6 @@ elif [[ $ARCH == arm* ]] || [[ $ARCH == aarch* ]]; then
   URL=https://github.com/wagoodman/dive/releases/download/v${VERSION}/dive_${VERSION}_linux_arm64.deb
 fi
 
-wget "$URL" -O ~/dive.deb
-apt-get install ~/dive.deb
-rm ~/dive.deb
+wget "$URL" -O "$HOME"/dive.deb
+apt-get install "$HOME"/dive.deb
+rm "$HOME"/dive.deb

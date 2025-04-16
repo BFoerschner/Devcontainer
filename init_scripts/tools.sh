@@ -8,4 +8,4 @@ apt-get install -y \
   pass \
   pass-extension-otp
 
-ln -s /usr/bin/duf ~/.local/bin/df
+ln -s /usr/bin/duf "$HOME"/.local/bin/df

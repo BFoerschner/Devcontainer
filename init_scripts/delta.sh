@@ -10,9 +10,9 @@ elif [[ $ARCH == arm* ]] || [[ $ARCH == aarch* ]]; then
   URL=https://github.com/dandavison/delta/releases/download/${VERSION}/delta-${VERSION}-aarch64-unknown-linux-gnu.tar.gz
 fi
 
-wget "$URL" -O ~/delta.tar.gz
-mkdir -p ~/delta && tar -xf ~/delta.tar.gz -C ~/delta --strip-components 1
-chmod +x ~/delta/delta
-mv ~/delta/delta ~/.local/bin/delta
-rm ~/delta.tar.gz
-rm -rf ~/delta
+wget "$URL" -O "$HOME"/delta.tar.gz
+mkdir -p "$HOME"/delta && tar -xf "$HOME"/delta.tar.gz -C "$HOME"/delta --strip-components 1
+chmod +x "$HOME"/delta/delta
+mv "$HOME"/delta/delta "$HOME"/.local/bin/delta
+rm "$HOME"/delta.tar.gz
+rm -rf "$HOME"/delta

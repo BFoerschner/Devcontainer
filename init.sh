@@ -1,15 +1,8 @@
 #!/bin/bash
 
+USER="${1:-$(whoami)}"
+
 apt-get update && apt-get install -y software-properties-common
-
-add-apt-repository -y ppa:neovim-ppa/unstable
-apt-get update && apt-get install -y neovim
-
-add-apt-repository -y ppa:longsleep/golang-backports
-apt-get update && apt-get install -y golang-go
-
-add-apt-repository -y ppa:lepapareil/hurl
-apt-get update && apt-get install -y hurl
 
 apt-get update && apt-get install -y \
   unminimize \
@@ -43,6 +36,15 @@ apt-get update && apt-get install -y \
 
 yes | unminimize
 
+add-apt-repository -y ppa:neovim-ppa/unstable
+apt-get update && apt-get install -y neovim
+
+add-apt-repository -y ppa:longsleep/golang-backports
+apt-get update && apt-get install -y golang-go
+
+add-apt-repository -y ppa:lepapareil/hurl
+apt-get update && apt-get install -y hurl
+
 # install rust toolchain
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
 "$HOME"/.cargo/bin/rustup component add rust-analyzer
@@ -65,5 +67,9 @@ for script in "$HOME"/init_scripts/*.sh; do
   fi
 done
 
+chown -Rc "$USER":"$USER" "$HOME"
+chsh -s /bin/zsh "$USER"
+
 # cleaning up cache and dangling dependencies
 apt-get autoremove --purge && apt-get clean
+rm -rf "$HOME"/.cache/*

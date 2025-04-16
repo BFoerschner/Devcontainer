@@ -8,11 +8,12 @@ ENV HOME=/home/$USER
 RUN \
   apt-get update && apt-get install -y \
   sudo \
-  adduser
+  adduser && \
+  apt-get autoremove --purge && apt-get autoclean
 RUN \
-  useradd -m -d $HOME $USER \
-  && passwd -d $USER \
-  && adduser $USER sudo
+  useradd -m -d $HOME $USER && \
+  passwd -d $USER && \
+  adduser $USER sudo
 ###############################################################################
 
 ###############################################################################
@@ -27,15 +28,16 @@ COPY bin ~/.local/bin
 ###############################################################################
 COPY init_scripts $HOME/init_scripts
 COPY init.sh $HOME/init.sh
-RUN $HOME/init.sh && rm -rf $HOME/init_scripts && rm $HOME/init.sh
+RUN \
+  $HOME/init.sh $USER && \
+  rm -rf $HOME/init_scripts && \
+  rm $HOME/init.sh
 ###############################################################################
 
 ###############################################################################
 # Complete user setup #########################################################
 ###############################################################################
 USER $USER
-RUN sudo chown -Rc $USER:$USER $HOME
-RUN chsh -s /bin/zsh
 WORKDIR $HOME/host
 ###############################################################################
 

@@ -1,8 +1,6 @@
 name: dockerio_build
 
 on:
-  schedule:
-    - cron: "45 11 * * *"
   workflow_dispatch:
 
 jobs:

@@ -6,8 +6,6 @@ name: ghcr_build
 # documentation.
 
 on:
-  schedule:
-    - cron: "45 11 * * *"
   workflow_dispatch:
 
 env:

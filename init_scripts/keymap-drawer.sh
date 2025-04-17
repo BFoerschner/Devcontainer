@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-"$HOME/.local/bin/uv" tool install keymap-drawer
+source "$HOME/.local/bin/env"
+uv tool install keymap-drawer

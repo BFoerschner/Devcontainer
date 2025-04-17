@@ -4,9 +4,9 @@ USER="${1:-$(whoami)}"
 
 apt-get update && apt-get install -y software-properties-common
 
+# essentials
 apt-get update && apt-get install -y \
   unminimize \
-  dialog \
   apt-utils \
   gnupg \
   zsh \
@@ -20,50 +20,54 @@ apt-get update && apt-get install -y \
   unzip \
   build-essential \
   libudev-dev \
-  cmake \
+  man \
+  tidy \
+  pandoc \
+  cmake
+
+# languages
+apt-get update && apt-get install -y \
   nodejs \
   npm \
   python3 \
   python3-pip \
   python3-venv \
+  pipx \
   lua5.4 \
   luarocks \
-  perl \
-  man \
-  pipx \
-  tidy \
-  pandoc
+  perl
 
 yes | unminimize
 
-add-apt-repository -y ppa:neovim-ppa/unstable
-apt-get update && apt-get install -y neovim
-
+# installing dependencies for install-scripts
 add-apt-repository -y ppa:longsleep/golang-backports
 apt-get update && apt-get install -y golang-go
 
-add-apt-repository -y ppa:lepapareil/hurl
-apt-get update && apt-get install -y hurl
-
 # install rust toolchain
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
-"$HOME"/.cargo/bin/rustup component add rust-analyzer
+if "$HOME"/.cargo/bin/rustup component add rust-analyzer; then
+  echo "[success] rust-analyzer" | tee -a /var/log/devimage_install.log
+else
+  echo "[fail]    rust-analyzer" | tee -a /var/log/devimage_install.log
+fi
 
 # install uv, installing python tools properly
-curl -LsSf https://astral.sh/uv/install.sh | sh && rm "$HOME"/.zshrc
+curl -LsSf https://astral.sh/uv/install.sh | sh &&
+  rm "$HOME"/.zshrc
 
 # dotfiles for cozy dev environment
-git clone https://github.com/BFoerschner/dotfiles "$HOME"/.dotfiles && cd "$HOME"/.dotfiles && stow .
+git clone https://github.com/BFoerschner/dotfiles "$HOME"/.dotfiles &&
+  cd "$HOME"/.dotfiles &&
+  stow .
 
 mkdir -p "$HOME/.local/bin"
 cd "$HOME/.local/bin" || exit
 for script in "$HOME"/init_scripts/*.sh; do
   echo "Installing $script"
   if "$script"; then
-    echo "$script install successful" | tee -a /var/log/devimage_install.log
+    echo "[success] $script" | tee -a /var/log/devimage_install.log
   else
-    echo "$script install failed" | tee -a /var/log/devimage_install.log
-    break
+    echo "[fail]    $script" | tee -a /var/log/devimage_install.log
   fi
 done
 

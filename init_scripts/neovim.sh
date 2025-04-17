@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-SLEEP_SECONDS=60
+add-apt-repository -y ppa:neovim-ppa/unstable
+apt-get update && apt-get install -y neovim
+
+# opening neovim and giving it time to install all the stuff
+# 2 minutes *should* be enough
+SLEEP_SECONDS=120
 
 nvim --headless '+Lazy install' +q
 npm install -g neovim

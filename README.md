@@ -3,8 +3,8 @@
 <!--toc:start-->
 
 - [Devcontainer (tmux based workflow)](#devcontainer-tmux-based-workflow)
-  - [Command to run](#command-to-run)
-  - [Tools available](#tools-available)
+  - [Usage](#usage)
+  - [Tools](#tools)
   <!--toc:end-->
 
 ## Usage
@@ -12,28 +12,10 @@
 ###### docker run
 
 ```bash
-docker run -v $HOME/.ssh/:/home/dev/.ssh:ro -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/:/home/dev/host -e LANG="C.UTF-8" -e LC_ALL="C.UTF-8" --rm -it ghcr.io/bfoerschner/devcontainer:build
+docker run -v $HOME/.ssh/:/home/dev/.ssh:ro -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/:/home/dev/host -e LANG="C.UTF-8" -e LC_ALL="C.UTF-8" --rm -it bfoerschner/devcontainer:latest
 ```
 
-###### docker compose
-
-```bash
-name: compose
-services:
-    devcontainer:
-        volumes:
-            - $HOME/.ssh/:/home/dev/.ssh:ro
-            - /var/run/docker.sock:/var/run/docker.sock
-            - $PWD/:/home/dev/host
-        environment:
-            - LANG=C.UTF-8
-            - LC_ALL=C.UTF-8
-        stdin_open: true
-        tty: true
-        image: ghcr.io/bfoerschner/devcontainer:latest
-```
-
-## Tools available
+## Tools
 
 - [visidata](https://www.visidata.org/)
   Interactive multitool for tabular data

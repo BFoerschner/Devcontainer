@@ -9,10 +9,19 @@
 
 ## Usage
 
-###### docker run
+### docker run
 
 ```bash
-docker run -v $HOME/.ssh/:/home/dev/.ssh:ro -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/:/home/dev/host -e LANG="C.UTF-8" -e LC_ALL="C.UTF-8" --rm -it bfoerschner/devcontainer:latest
+docker run \
+  -v "$HOME/.ssh/:/home/dev/.ssh:ro" \
+  -v "/var/run/docker.sock:/var/run/docker.sock:ro" \
+  -v "/dev/bus/usb:/dev/bus/usb" \
+  -v $PWD/:/home/dev/host
+  -e LANG="C.UTF-8"
+  -e LC_ALL="C.UTF-8"
+  --rm
+  -it
+  bfoerschner/devcontainer:latest
 ```
 
 ## Tools

@@ -1,35 +1,30 @@
 FROM ubuntu:24.10
 
-###############################################################################
-## Setup user #################################################################
-###############################################################################
-ARG USER=root
-ENV HOME=/home/$USER
-RUN \
-  apt-get update && apt-get install -y \
-  sudo \
-  adduser && \
-  apt-get autoremove --purge && apt-get autoclean
+# /tmp
+#     A directory made available for applications that need a place to create
+#     temporary files. Applications shall be allowed to create files in this
+#     directory, but shall not assume that such files are preserved between
+#     invocations of the application.
+# -- quoted from https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap10.html
+ENV INITIAL_INSTALL_PATH=/tmp
 
 ###############################################################################
 ## Copy binaries ##############################################################
 ###############################################################################
-RUN mkdir -p ~/.local/bin
-COPY bin ~/.local/bin
+RUN mkdir -p \
+  /opt/tmp \
+  /root/.local/bin
+COPY bin /root/.local/bin
 
 ###############################################################################
 ## Install programs ###########################################################
 ###############################################################################
-COPY init_scripts $HOME/init_scripts
-COPY init.sh $HOME/init.sh
+COPY init_scripts init.sh ${INITIAL_INSTALL_PATH}/
 RUN \
-  $HOME/init.sh $USER && \
-  rm -rf $HOME/init_scripts && \
-  rm $HOME/init.sh
+  ${INITIAL_INSTALL_PATH}/init.sh && \
+  rm -rf ${INITIAL_INSTALL_PATH}/init_scripts && \
+  rm ${INITIAL_INSTALL_PATH}/init.sh
 
-###############################################################################
-## Complete user setup ########################################################
-###############################################################################
-WORKDIR $HOME/host
+WORKDIR /root/host
 
 ENTRYPOINT ["tmux", "-u"]

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-USER="${1:-$(whoami)}"
-
 apt-get update && apt-get install -y software-properties-common
 
 # essentials
@@ -71,8 +69,7 @@ for script in "$HOME"/init_scripts/*.sh; do
   fi
 done
 
-chown -Rc "$USER":"$USER" "$HOME"
-chsh -s /bin/zsh "$USER"
+chsh -s /bin/zsh root
 
 # cleaning up cache and dangling dependencies
 apt-get autoremove --purge && apt-get clean

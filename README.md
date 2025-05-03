@@ -35,9 +35,6 @@ docker run \
 - [lazygit](https://github.com/jesseduffield/lazygit)
   Git TUI
   - installscript
-- [sysz](https://github.com/joehillen/sysz)
-  An fzf terminal UI for systemctl
-  - installscript
 - [delta](https://github.com/dandavison/delta)
   Difftool
   - apt
@@ -71,9 +68,6 @@ docker run \
   - installscript
 - [navi](https://github.com/denisidoro/navi)
   Interactive cheatsheet tool for cli
-  - installscript
-- [entr](https://github.com/eradman/entr)
-  Utility for running arbitrary commands when files change
   - installscript
 - [termscp](https://github.com/veeso/termscp)
   scp for cli

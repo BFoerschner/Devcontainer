@@ -72,7 +72,7 @@ update_distro() {
 
   # Development group/tools
   if [[ "$id" == "ubuntu" || "$id" == "debian" ]]; then
-    eval "$install_cmd software-properties-common build-essential pkg-config libevent-dev libncurses-dev bison pass"
+    eval "$install_cmd software-properties-common build-essential pkg-config libevent-dev libncurses-dev bison pass python3-pip python3-venv"
     # silicon deps
     eval "$install_cmd expat libxml2-dev libssl-dev libfreetype6-dev libexpat1-dev libxcb-composite0-dev libharfbuzz-dev libfontconfig1-dev g++ libsmbclient libsmbclient-dev libclang-dev"
     if grep -q docker /proc/1/cgroup 2>/dev/null; then

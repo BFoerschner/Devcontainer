@@ -122,6 +122,7 @@ update_distro() {
     tar
     zsh
     ncdu
+    direnv
   )
   install_packages "$install_cmd" common_pkgs
 }

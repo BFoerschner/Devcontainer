@@ -62,6 +62,7 @@ go install github.com/muesli/duf@latest
 go install github.com/wagoodman/dive@latest
 go install github.com/mikefarah/yq/v4@latest
 go install github.com/direnv/direnv@latest
+go install code.gitea.io/tea@latest
 
 uv tool install 'harlequin[postgres,mysql,s3]' --force
 uv tool install 'httpie' --force

@@ -142,7 +142,8 @@ main() {
   if [[ "$distro_id" == "ubuntu" || "$distro_id" == "debian" ]]; then
     update_distro "$distro_id" \
       "apt-get update && apt-get upgrade -y && apt-get autoremove -y" \
-      "apt-get install -y"
+      "apt-get install -y" \
+      "yes | unminimize"
   elif [[ "$distro_id" == "fedora" ]]; then
     update_distro "$distro_id" \
       "dnf upgrade --refresh -y" \

@@ -52,7 +52,6 @@ log "install and setup neovim"
 
 log "installing tools"
 go install github.com/zyedidia/eget@latest
-go install github.com/mr-karan/doggo/cmd/doggo@latest
 go install github.com/jesseduffield/lazydocker@latest
 go install github.com/jesseduffield/lazygit@latest
 go install github.com/itchyny/mmv/cmd/mmv@latest
@@ -62,7 +61,7 @@ go install github.com/muesli/duf@latest
 go install github.com/wagoodman/dive@latest
 go install github.com/mikefarah/yq/v4@latest
 go install github.com/direnv/direnv@latest
-go install code.gitea.io/tea@latest
+go install code.gitea.io/tea@v0.10.1
 
 uv tool install 'harlequin[postgres,mysql,s3]' --force
 uv tool install 'httpie' --force
@@ -89,6 +88,7 @@ cargo install silicon
 "$SCRIPT_DIR"/init_scripts/terraform.sh
 "$SCRIPT_DIR"/init_scripts/tmux.sh
 "$SCRIPT_DIR"/init_scripts/docker.sh
+"$SCRIPT_DIR"/init_scripts/kubectl.sh
 
 REPOS=(
   "jgm/pandoc"

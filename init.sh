@@ -93,6 +93,7 @@ cargo install silicon
 
 REPOS=(
   "jgm/pandoc"
+  "cli/cli" # github cli
 )
 for repo in "${REPOS[@]}"; do
   log "Installing $repo..."

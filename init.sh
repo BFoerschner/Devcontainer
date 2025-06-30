@@ -88,6 +88,7 @@ cargo install silicon
 "$SCRIPT_DIR"/init_scripts/terraform.sh
 "$SCRIPT_DIR"/init_scripts/tmux.sh
 "$SCRIPT_DIR"/init_scripts/docker.sh
+"$SCRIPT_DIR"/init_scripts/tmux_xpanes.sh
 "$SCRIPT_DIR"/init_scripts/kubectl.sh
 
 REPOS=(

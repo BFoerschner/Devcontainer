@@ -15,12 +15,16 @@ log "setting up neovim node libs"
 npm install -g neovim
 
 # opening neovim and giving it time to install all the stuff
-# 2 minutes *should* be enough
-SLEEP_SECONDS=160
+SLEEP_SECONDS=180
 
 set +e          # Disable exit on error
 set +o pipefail # Disable pipefail
-nvim --headless '+Lazy install' +q
+nvim --headless '+Lazy! install' +qa
+nvim --headless "+Lazy! update" +qa
+nvim --headless "+Lazy! clean" +qa
+nvim --headless '+Lazy! install' +qa
+nvim --headless "+Lazy! update" +qa
+nvim --headless "+Lazy! sync" +qa
 LSP_CFG=(
   "docker-compose-language-service"
   "tailwindcss-language-server"

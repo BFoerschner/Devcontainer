@@ -16,7 +16,7 @@ npm install -g neovim
 
 # opening neovim and giving it time to install all the stuff
 # 2 minutes *should* be enough
-SLEEP_SECONDS=120
+SLEEP_SECONDS=160
 
 set +e          # Disable exit on error
 set +o pipefail # Disable pipefail

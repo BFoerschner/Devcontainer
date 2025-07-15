@@ -1,19 +1,13 @@
 #!/usr/bin/env zsh
-# Disable safeguards as zinit got some unthrown errors in it
-set +e
-set +o pipefail
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"/logging.sh
 
-export ZDOTDIR="${ZDOTDIR:-$HOME}"
-export ZSHRC_FORCE_LOAD=1 # Override non-interactive early return
+export ZSHRC_FORCE_LOAD=1
 
-source "$ZDOTDIR/.zshrc"
+log "Initializing Zsh environment"
+source ~/.zshrc # sourcing the file should do the trick
 
-# Force compinit and dump file generation
-autoload -Uz compinit
-compinit -i
+# run a command to ensure zinit has really loaded all the plugins
+log "Verifying Zinit plugins"
+zinit report
 
-[[ -f "${ZDOTDIR}/.zcompdump" ]] && zcompile "${ZDOTDIR}/.zcompdump"
-
-echo "ZSH completion-cache successfully generated"
-
-set -eo pipefail # bring back failing on error
+log "Zsh initialization complete"

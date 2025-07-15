@@ -50,46 +50,119 @@ log "install and setup neovim"
 "$SCRIPT_DIR"/init_scripts/neovim.sh
 "$SCRIPT_DIR"/init_scripts/neovim_setup.sh
 
-log "installing tools"
+# Go tools
+log "Installing Go tools..."
+log "eget: Simple binary downloader"
 go install github.com/zyedidia/eget@latest
+
+log "lazydocker: Docker container management TUI"
 go install github.com/jesseduffield/lazydocker@latest
+
+log "lazygit: Git repository management TUI"
 go install github.com/jesseduffield/lazygit@latest
+
+log "mmv: Multi-file renaming tool"
 go install github.com/itchyny/mmv/cmd/mmv@latest
+
+log "nap: Code snippet manager"
 go install github.com/maaslalani/nap@main
+
+log "fzf: Fuzzy finder"
 go install github.com/junegunn/fzf@latest
+
+log "duf: Disk usage utility"
 go install github.com/muesli/duf@latest
+
+log "dive: Docker image layer explorer"
 go install github.com/wagoodman/dive@latest
+
+log "yq: YAML processor"
 go install github.com/mikefarah/yq/v4@latest
+
+log "direnv: Environment variable manager"
 go install github.com/direnv/direnv@latest
+
+log "tea: Gitea CLI client"
 go install code.gitea.io/tea@v0.10.1
 
+# UV tools
+log "Installing UV tools..."
+log "harlequin: SQL IDE with database support"
 uv tool install 'harlequin[postgres,mysql,s3]' --force
+
+log "httpie: HTTP client"
 uv tool install 'httpie' --force
+
+log "jrnl: Command-line journal"
 uv tool install 'jrnl' --force
-uv tool install 'keymap-drawer' --force
+
+log "llm: Large Language Model CLI"
 uv tool install 'llm' --force
+
+log "go-task-bin: Task runner"
 uv tool install 'go-task-bin' --force
+
+log "visidata: Data exploration tool"
 uv tool install 'visidata' --force
+
+log "mitmproxy: HTTP proxy for testing"
 uv tool install 'mitmproxy' --force
+
+log "ansible: IT automation platform"
 uv tool install 'ansible' --force
+
+log "ansible-core: Ansible core components"
 uv tool install 'ansible-core' --force
 
+# Cargo tools
+log "Installing Cargo tools..."
+log "bat: Cat clone with syntax highlighting"
 cargo install bat
+
+log "eza: Modern ls replacement"
 cargo install eza
+
+log "fd-find: Fast find alternative"
 cargo install fd-find
-cargo install hurl
+
+log "hurl: HTTP testing tool"
+# cargo install hurl
+
+log "git-delta: Git diff viewer"
 cargo install git-delta
+
+log "ripgrep: Fast grep alternative"
 cargo install ripgrep
+
+log "du-dust: Disk usage analyzer"
 cargo install du-dust
+
+log "termscp: Terminal file transfer"
 cargo install termscp
+
+log "silicon: Code screenshot generator"
 cargo install silicon
 
+# other installscripts
+log "pass-otp (OTP extension for pass password manager)"
 "$SCRIPT_DIR"/init_scripts/pass_otp.sh
+
+log "terraform (Infrastructure as Code tool)"
 "$SCRIPT_DIR"/init_scripts/terraform.sh
+
+log "tmux (Terminal multiplexer)"
 "$SCRIPT_DIR"/init_scripts/tmux.sh
-"$SCRIPT_DIR"/init_scripts/docker.sh
+
+log "tmux-xpanes (Tmux pane management)"
 "$SCRIPT_DIR"/init_scripts/tmux_xpanes.sh
+
+log "docker (Container platform)"
+"$SCRIPT_DIR"/init_scripts/docker.sh
+
+log "kubectl (Kubernetes CLI)"
 "$SCRIPT_DIR"/init_scripts/kubectl.sh
+
+log "Tool installation complete!"
 
 REPOS=(
   "jgm/pandoc"

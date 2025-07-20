@@ -143,6 +143,13 @@ cargo install termscp
 log "silicon: Code screenshot generator"
 cargo install silicon
 
+log "procs: replacement for ps"
+cargo install procs
+
+# Install npm tools
+log "claude code: Anthropic agentic llm"
+npm install -g @anthropic-ai/claude-code
+
 # other installscripts
 log "pass-otp (OTP extension for pass password manager)"
 "$SCRIPT_DIR"/init_scripts/pass_otp.sh

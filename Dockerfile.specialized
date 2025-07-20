@@ -1,4 +1,4 @@
-FROM ubuntu:rolling
+FROM devel_base
 
 ################################################################################
 #  Build arguments  ------------------------------------------------------------
@@ -9,7 +9,6 @@ RUN test -n "$INIT_SCRIPT_PATH" || (echo "ERROR: INIT_SCRIPT_PATH build argument
 ################################################################################
 #  Copy relevant files over  ---------------------------------------------------
 ################################################################################
-COPY ["bin", "/root/.local/bin"]
 COPY ["init_scripts", "/root/init_scripts"]
 COPY ["build-scripts", "/root/build-scripts"]
 COPY ["$INIT_SCRIPT_PATH", "/root/init.sh"]

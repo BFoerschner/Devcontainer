@@ -1,8 +1,16 @@
-FROM ubuntu:rolling
-
 ################################################################################
 #  Build arguments  ------------------------------------------------------------
 ################################################################################
+ARG USE_UBUNTU_ROLLING=false
+ARG BASE_IMAGE=ubuntu:rolling
+ARG INIT_SCRIPT_PATH
+
+################################################################################
+#  Base image selection  -------------------------------------------------------
+################################################################################
+FROM ${BASE_IMAGE}
+
+# Re-declare args after FROM
 ARG INIT_SCRIPT_PATH
 RUN test -n "$INIT_SCRIPT_PATH" || (echo "ERROR: INIT_SCRIPT_PATH build argument is required" && exit 1)
 
@@ -11,21 +19,25 @@ RUN test -n "$INIT_SCRIPT_PATH" || (echo "ERROR: INIT_SCRIPT_PATH build argument
 ################################################################################
 COPY ["bin", "/root/.local/bin"]
 COPY ["init_scripts", "/root/init_scripts"]
+COPY ["build-scripts", "/root/build-scripts"]
 COPY ["$INIT_SCRIPT_PATH", "/root/init.sh"]
 
 ################################################################################
 #  Install programs + cleanup afterwards  --------------------------------------
 ################################################################################
 WORKDIR /root
-RUN chmod -R +x ./init_scripts
+RUN chmod -R +x ./init_scripts && chmod -R +x ./build-scripts
 
 RUN \
   ./init.sh && \
   rm -rf ./init_scripts && \
+  rm -rf ./build-scripts && \
   rm -rf ./init.sh
+
+RUN zsh -i -c "source ~/.zshrc"
 
 ################################################################################
 #  Start in provided host directory and run TMUX -------------------------------
 ################################################################################
 WORKDIR /root/host
-ENTRYPOINT ["tmux", "-u"]
+ENTRYPOINT ["zsh"]

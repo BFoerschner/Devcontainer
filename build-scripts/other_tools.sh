@@ -71,13 +71,6 @@ install_tmux_plugin_manager() {
   "$TPM_PLUGINS_DIR"/scripts/install_plugins.sh
 }
 
-install_tmux_xpanes() {
-  log "Installing tmux-xpanes"
-  INSTALL_DIR="$HOME"/.local/pkg/tmux-xpanes
-  mkdir -p "$INSTALL_DIR"
-  git clone https://github.com/greymd/tmux-xpanes.git "$INSTALL_DIR"
-}
-
 install_docker() {
   log "Installing docker"
   # check if we need sudo or not
@@ -224,7 +217,6 @@ install_other_tools() {
   install_gh_cli
   install_tmux
   install_tmux_plugin_manager
-  install_tmux_xpanes
   install_docker
   install_kubectl
   install_neovim

@@ -20,11 +20,10 @@ source "$BUILD_SCRIPTS_DIR"/other_tools.sh
 source "$BUILD_SCRIPTS_DIR"/cleanup_caches.sh
 
 setup_environment
-install_go_tools
-install_uv_tools
-install_cargo_tools
-install_npm_tools
-install_other_tools
+
+install_neovim
+install_neovim_plugins
+
 cleanup_caches
 
 log "Tool installation complete!"

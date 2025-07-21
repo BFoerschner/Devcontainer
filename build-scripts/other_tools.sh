@@ -164,7 +164,7 @@ install_neovim_plugins() {
   npm install -g neovim
 
   # opening neovim and giving it time to install all the stuff
-  SLEEP_SECONDS=180
+  SLEEP_SECONDS=120
 
   set +e          # Disable exit on error
   set +o pipefail # Disable pipefail
@@ -206,8 +206,8 @@ install_neovim_plugins() {
     "black"
   )
   MASON_DEPS="{$(printf "'%s', " "${LSP_CFG[@]}")}"
-  nvim --headless -c "lua require('mason').setup()" -c "lua require('mason.api.command').MasonInstall($MASON_DEPS)" -c "quitall"
-  nvim --headless -c "TSInstall all" -c "sleep $SLEEP_SECONDS" -c "quitall"
+  nvim --headless -c "lua require('mason').setup()" -c "lua require('mason.api.command').MasonInstall($MASON_DEPS)" -c "+qa"
+  nvim --headless -c "TSInstall all" -c "+qa"
 }
 
 install_other_tools() {

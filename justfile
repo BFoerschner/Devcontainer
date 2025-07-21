@@ -12,3 +12,8 @@ build-full:
     @echo "Building full development image..."
     docker build --no-cache --build-arg BASE_IMAGE=devel_base:latest --build-arg INIT_SCRIPT_PATH=init_scripts/init_full.sh -t devel_full .
     @echo "Full image 'devel_full' built successfully!"
+
+build-neovim:
+    @echo "Building neovim image..."
+    docker build --no-cache --build-arg BASE_IMAGE=devel_base:latest --build-arg INIT_SCRIPT_PATH=init_scripts/init_neovim.sh -t devel_nvim .
+    @echo "Full image 'devel_neovim' built successfully!"

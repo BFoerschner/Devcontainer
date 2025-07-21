@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -eo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR"/init_scripts/logging.sh
+# Handle case where script is in root directory (Docker container)
+if [[ "$SCRIPT_DIR" == "/root" ]]; then
+    BUILD_SCRIPTS_DIR="/root/build-scripts"
+else
+    BUILD_SCRIPTS_DIR="$(dirname "$SCRIPT_DIR")/build-scripts"
+fi
+source "$BUILD_SCRIPTS_DIR"/logging.sh
 
 export GOPATH="$HOME/.local/gopkg"
 # Pre-populate PATH so we don't have to do it later
@@ -15,10 +21,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 log "update os"
-"$SCRIPT_DIR"/init_scripts/update_os.sh -y
+"$BUILD_SCRIPTS_DIR"/update_os.sh -y
 
 log "install golang"
-"$SCRIPT_DIR"/init_scripts/go.sh
+"$BUILD_SCRIPTS_DIR"/go.sh
 
 log "install rust toolchain"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
@@ -33,7 +39,7 @@ eval "$(fnm env)"
 fnm install --latest
 
 log "install lua"
-"$SCRIPT_DIR"/init_scripts/lua.sh
+"$BUILD_SCRIPTS_DIR"/lua.sh
 
 log "install starship"
 curl -sS https://starship.rs/install.sh | sh -s -- -y

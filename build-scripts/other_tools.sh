@@ -151,7 +151,7 @@ install_neovim() {
 }
 
 install_neovim_plugins() {
-  log "Installing and initializing neovim plugins and necessary additional software"
+  log "Installing and initializing neovim plugins and necessary additional software (mainly mason)"
 
   # install python packages for neovim
   log "installing python"
@@ -163,9 +163,6 @@ install_neovim_plugins() {
   log "setting up neovim node libs"
   npm install -g neovim
 
-  # opening neovim and giving it time to install all the stuff
-  SLEEP_SECONDS=120
-
   set +e          # Disable exit on error
   set +o pipefail # Disable pipefail
   nvim --headless '+Lazy! install' +qa
@@ -174,40 +171,8 @@ install_neovim_plugins() {
   nvim --headless '+Lazy! install' +qa
   nvim --headless "+Lazy! update" +qa
   nvim --headless "+Lazy! sync" +qa
-  LSP_CFG=(
-    "docker-compose-language-service"
-    "tailwindcss-language-server"
-    "dockerfile-language-server"
-    "yaml-language-server"
-    "bash-language-server"
-    "vue-language-server"
-    "lua-language-server"
-    "markdownlint-cli2"
-    "js-debug-adapter"
-    "terraform-ls"
-    "markdown-toc"
-    "shellcheck"
-    "eslint-lsp"
-    "goimports"
-    "prettier"
-    "marksman"
-    "json-lsp"
-    "hadolint"
-    "codelldb"
-    "pyright"
-    "lemminx"
-    "gofumpt"
-    "tflint"
-    "stylua"
-    "vtsls"
-    "shfmt"
-    "gopls"
-    "delve"
-    "black"
-  )
-  MASON_DEPS="{$(printf "'%s', " "${LSP_CFG[@]}")}"
-  nvim --headless -c "lua require('mason').setup()" -c "lua require('mason.api.command').MasonInstall($MASON_DEPS)" -c "+qa"
-  nvim --headless -c "TSInstall all" -c "+qa"
+  nvim --headless -c "MasonToolsInstallSync" -c qall
+  nvim --headless -c "lua require('nvim-treesitter')" -c "TSInstallSync all" -c "qa"
 }
 
 install_other_tools() {

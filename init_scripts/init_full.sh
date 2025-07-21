@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck source-path=./build-scripts
+
 set -eo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo "$SCRIPT_DIR"

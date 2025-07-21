@@ -26,8 +26,10 @@ RUN \
   rm -rf ./build-scripts && \
   rm -rf ./init.sh
 
+RUN zsh -i -c "source ~/.zshrc"
+
 ################################################################################
 #  Start in provided host directory and run TMUX -------------------------------
 ################################################################################
 WORKDIR /root/host
-ENTRYPOINT ["tmux", "-u"]
+ENTRYPOINT ["zsh"]

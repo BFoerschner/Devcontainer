@@ -172,7 +172,7 @@ install_neovim_plugins() {
   nvim --headless "+Lazy! update" +qa
   nvim --headless "+Lazy! sync" +qa
   nvim --headless -c "MasonToolsInstallSync" -c qall
-  nvim --headless -c "lua require('nvim-treesitter')" -c "TSInstallSync all" -c "qa"
+  nvim --headless -c "lua require('nvim-treesitter')" -c "+TSInstallSync all" -c "qa"
 }
 
 install_other_tools() {

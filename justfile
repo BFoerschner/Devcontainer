@@ -7,4 +7,4 @@ build-base:
 # Test base image commands with zsh configuration
 test-base:
     @echo "Testing base image commands..."
-    ./test/check-commands devel_base -s zsh -f test/base-commands.txt
+    cd ccheck && cargo build --release && ./target/release/ccheck devel_base -s zsh -f ../test/base-commands.txt

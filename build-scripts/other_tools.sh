@@ -29,6 +29,11 @@ install_pandoc() {
   eget "jgm/pandoc" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
 }
 
+install_carapace() {
+  log "Installing carapace"
+  eget "carapace-sh/carapace-bin" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz --file "carapace"
+}
+
 install_gh_cli() {
   log "Installing github cli"
   eget "cli/cli" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
@@ -179,6 +184,7 @@ install_other_tools() {
   install_pass_otp
   install_terraform
   install_pandoc
+  install_carapace
   install_gh_cli
   install_tmux
   install_tmux_plugin_manager

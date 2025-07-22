@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Common setup functions used across init scripts
 
 setup_environment() {
   export GOPATH="$HOME/.local/gopkg"
@@ -14,4 +13,3 @@ setup_environment() {
 
   eval "$(fnm env)" 2>/dev/null || true
 }
-

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# other tool installations
 
 install_pass_otp() {
   log "Installing otp-extension for pass"
@@ -180,7 +179,12 @@ install_neovim_plugins() {
   nvim --headless -c "lua require('nvim-treesitter')" -c "TSInstallSync all" -c "qall"
 }
 
-install_other_tools() {
+install_starship() {
+  curl -sS https://starship.rs/install.sh | sh -s -- -y
+}
+
+install_tools() {
+  install_starship
   install_pass_otp
   install_terraform
   install_pandoc

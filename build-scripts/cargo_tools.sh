@@ -31,5 +31,10 @@ install_cargo_tools() {
 
   log "procs: replacement for ps"
   cargo install procs
-}
 
+  log "difftastic: semantic diff tool"
+  cargo install difftastic
+
+  log "choose: simpler than awk for trivial use cases"
+  cargo install choose
+}

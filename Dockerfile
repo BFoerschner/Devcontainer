@@ -42,4 +42,4 @@ RUN zsh -i -c "source ~/.zshrc"
 #  Start in provided host directory and run TMUX -------------------------------
 ################################################################################
 WORKDIR /root/host
-ENTRYPOINT ["tmux", "-u"]
+ENTRYPOINT ["tmux", "new-session", "-A", "-s", "main"]

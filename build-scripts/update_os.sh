@@ -28,6 +28,8 @@ update_os() {
     ncdu \
     direnv \
     vim \
+    pass \
+    pass-otp \
     rsync
 
   # dependencies
@@ -49,7 +51,6 @@ update_os() {
     libevent-dev \
     libncurses-dev \
     bison \
-    pass \
     python3-pip \
     python3-venv
 

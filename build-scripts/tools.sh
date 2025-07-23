@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
 
-install_pass_otp() {
-  log "Installing otp-extension for pass"
-  TMP_DIR=$(mktemp -d)
-  cd "$TMP_DIR" || exit
-  git clone https://github.com/tadfisher/pass-otp
-  cd pass-otp || exit
-  if ((EUID == 0)); then
-    make install
-  else
-    sudo make install
-  fi
-}
-
 install_terraform() {
   log "Installing terraform"
   TMP_DIR=$(mktemp -d)
@@ -185,7 +172,6 @@ install_starship() {
 
 install_tools() {
   install_starship
-  install_pass_otp
   install_terraform
   install_pandoc
   install_carapace

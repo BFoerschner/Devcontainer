@@ -26,7 +26,6 @@ lua
 
 # Shell and environment
 zsh
-starship
 
 # Build essentials
 gcc

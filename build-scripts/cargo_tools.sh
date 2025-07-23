@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
 install_cargo_tools() {
-  cargo install bat
-  cargo install eza
-  cargo install fd-find
-  cargo install git-delta
-  cargo install ripgrep
-  cargo install du-dust
+  cargo install bat --locked
+  cargo install eza --locked
+  cargo install fd-find --locked
+  cargo install git-delta --locked
+  cargo install ripgrep --locked
+  cargo install du-dust --locked
   ln -s "$HOME"/.cargo/bin/dust "$HOME"/.local/bin/du
-  cargo install termscp
-  cargo install silicon
-  cargo install procs
-  cargo install difftastic
-  cargo install choose
+  cargo install termscp --locked
+  cargo install silicon --locked
+  cargo install procs --locked
+  cargo install difftastic --locked
+  cargo install choose --locked
+  cargo install nu --locked
 }

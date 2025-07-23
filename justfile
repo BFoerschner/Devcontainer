@@ -1,7 +1,6 @@
 build-base:
     @echo "Building base development image from Ubuntu rolling..."
     docker build \
-      --no-cache \
       --build-arg INIT_SCRIPT_PATH=init_scripts/init_base.sh \
       -t devcontainer_base .
     just test base
@@ -10,7 +9,6 @@ build-base:
 build CONTAINER: build-base
     @echo "Building full development image..."
     docker build \
-      --no-cache \
       --build-arg BASE_IMAGE=devcontainer_base:latest \
       --build-arg INIT_SCRIPT_PATH=init_scripts/init_{{CONTAINER}}.sh \
       -t devcontainer_{{CONTAINER}} .

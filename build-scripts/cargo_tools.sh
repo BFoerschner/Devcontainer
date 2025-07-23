@@ -14,4 +14,5 @@ install_cargo_tools() {
   cargo install difftastic --locked
   cargo install choose --locked
   cargo install nu --locked
+  cargo install just --locked
 }

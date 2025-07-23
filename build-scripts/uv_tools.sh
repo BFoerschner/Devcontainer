@@ -5,10 +5,8 @@ install_uv_tools() {
   uv tool install 'httpie' --force
   uv tool install 'jrnl' --force
   uv tool install 'llm' --force
-  uv tool install 'go-task-bin' --force
   uv tool install 'visidata' --force
   uv tool install 'mitmproxy' --force
   uv tool install 'ansible' --force
   uv tool install 'ansible-core' --force
 }
-

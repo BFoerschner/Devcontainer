@@ -4,6 +4,7 @@
 ARG USE_UBUNTU_ROLLING=false
 ARG BASE_IMAGE=ubuntu:rolling
 ARG INIT_SCRIPT_PATH
+ARG ENTRYPOINT
 
 ################################################################################
 #  Base image selection  -------------------------------------------------------
@@ -26,18 +27,19 @@ COPY ["$INIT_SCRIPT_PATH", "/root/init.sh"]
 #  Install programs + cleanup afterwards  --------------------------------------
 ################################################################################
 WORKDIR /root
-RUN chmod -R +x ./init_scripts && chmod -R +x ./build-scripts
-
 RUN \
   ./init.sh && \
   rm -rf ./init_scripts && \
   rm -rf ./build-scripts && \
   rm -rf ./init.sh
 
+################################################################################
+#  Initializing zinit plugins  -------------------------------------------------
+################################################################################
 RUN zsh -i -c "source ~/.zshrc"
 
 ################################################################################
 #  Start in provided host directory and run TMUX -------------------------------
 ################################################################################
 WORKDIR /root/host
-ENTRYPOINT ["zsh"]
+ENTRYPOINT ["tmux", "-u"]

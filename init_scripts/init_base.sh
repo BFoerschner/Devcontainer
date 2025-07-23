@@ -8,13 +8,13 @@ source "$BUILD_SCRIPTS_DIR"/logging.sh
 source "$BUILD_SCRIPTS_DIR"/common_setup.sh
 source "$BUILD_SCRIPTS_DIR"/cleanup_caches.sh
 source "$BUILD_SCRIPTS_DIR"/update_os.sh
-source "$BUILD_SCRIPTS_DIR"/other_tools.sh
+source "$BUILD_SCRIPTS_DIR"/languages.sh
+source "$BUILD_SCRIPTS_DIR"/dotfiles.sh
 
 setup_environment
 
 update_os
 install_languages
-install_starship
 install_dotfiles
 
 cleanup_caches

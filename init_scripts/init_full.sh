@@ -10,7 +10,7 @@ source "$BUILD_SCRIPTS_DIR"/go_tools.sh
 source "$BUILD_SCRIPTS_DIR"/uv_tools.sh
 source "$BUILD_SCRIPTS_DIR"/cargo_tools.sh
 source "$BUILD_SCRIPTS_DIR"/npm_tools.sh
-source "$BUILD_SCRIPTS_DIR"/other_tools.sh
+source "$BUILD_SCRIPTS_DIR"/tools.sh
 source "$BUILD_SCRIPTS_DIR"/cleanup_caches.sh
 
 setup_environment
@@ -19,7 +19,7 @@ install_go_tools
 install_uv_tools
 install_cargo_tools
 install_npm_tools
-install_other_tools
+install_tools
 
 cleanup_caches
 

@@ -14,41 +14,108 @@ struct Args {
     shell: String,
 }
 
-fn build_docker_cmd(image: &str, shell: &str) -> Command {
-    let mut docker_cmd = Command::new("docker");
-    docker_cmd.args(["run", "--rm", "--entrypoint=", image, shell]);
+fn main() -> Result<()> {
+    let args = Args::parse();
+
+    let commands = match args.file {
+        Some(path) => match fs::read_to_string(path) {
+            Ok(contents) => contents
+                .lines()
+                // filter out comments and empty lines
+                .filter(|line| !line.trim().is_empty() && !line.starts_with('#'))
+                .map(|l| l.trim().to_string())
+                .collect(),
+            Err(err) => {
+                eprintln!("{err}");
+                anyhow::bail!("Failed to read file");
+            }
+        },
+        None => args.commands,
+    };
+
+    if commands.is_empty() {
+        anyhow::bail!("No commands specified");
+    }
+
+    println!("Checking Docker image: {}", args.image.to_string().yellow());
+    println!(
+        "Checking {} command(s):\n",
+        commands.len().to_string().yellow()
+    );
+
+    // create a joint script to run all commands at once in the container
+    let script = commands
+        .iter()
+        .map(|cmd| create_availability_check_script(&args.shell, cmd))
+        .collect::<Vec<_>>()
+        .join("; ");
+
+    let docker_script_output = build_docker_cmd(&args.image, &args.shell)
+        .arg("-c")
+        .arg(&script)
+        .output();
+
+    match docker_script_output {
+        Ok(output) => {
+            let mut installed = vec![];
+            let mut missing = vec![];
+
+            for line in String::from_utf8_lossy(&output.stdout).lines() {
+                let line = line.trim();
+                if line.contains("not installed") {
+                    missing.push(line.to_string());
+                } else if line.contains("installed") {
+                    installed.push(line.to_string());
+                } else if !line.is_empty() {
+                    eprintln!("{line}");
+                }
+            }
+            create_summary(installed, missing)
+        }
+        Err(err) => {
+            println!("{err}");
+            anyhow::bail!("Failed to run script in container");
+        }
+    }
+}
+
+fn create_availability_check_script(shell: &str, cmd: &str) -> String {
+    let nu_script = r#"
+        if (try { which {cmd} } catch { null }) != null {
+            print "{cmd} installed"
+        } else {
+            print "{cmd} not installed"
+        }
+    "#;
+
+    let posix_script = r#"
+        if command -v "{cmd}" >/dev/null 2>&1; then
+            echo "{cmd} installed"
+        else
+            echo "{cmd} not installed"
+        fi
+    "#;
 
     match shell {
-        "zsh" => {
-            docker_cmd.arg("-i"); // Because we want it to load .zshrc
-        }
-        "nu" | "nushell" => {} // No special flags needed for nushell
-        _ => {}
+        "nu" | "nushell" => nu_script,
+        _ => posix_script,
+    }
+    .replace("{cmd}", cmd)
+}
+
+fn build_docker_cmd(image: &str, shell: &str) -> Command {
+    let mut docker_cmd = Command::new("docker");
+    docker_cmd
+        .arg("run")
+        .arg("--rm")
+        .arg("--entrypoint=".to_string() + shell)
+        .arg(image);
+
+    if shell == "zsh" {
+        docker_cmd.arg("-i"); // Necessary for it to load .zshrc
     }
 
     docker_cmd
-}
-
-fn get_installed_and_missing_commands_new(
-    script: String,
-    docker_cmd: &mut Command,
-) -> Result<(Vec<String>, Vec<String>)> {
-    let mut installed = Vec::new();
-    let mut missing = Vec::new();
-
-    let output = docker_cmd.args(["-c", &script]).output().unwrap();
-
-    for line in String::from_utf8_lossy(&output.stdout).lines() {
-        let line = line.trim();
-        if line.contains("not installed") {
-            missing.push(line.to_string());
-        } else if line.contains("installed") {
-            installed.push(line.to_string());
-        } else if !line.is_empty() {
-            eprintln!("{line}");
-        }
-    }
-    Ok((installed, missing))
 }
 
 fn create_summary(installed: Vec<String>, missing: Vec<String>) -> Result<()> {
@@ -67,68 +134,11 @@ fn create_summary(installed: Vec<String>, missing: Vec<String>) -> Result<()> {
         println!("{summary}");
         Ok(())
     } else {
-        println!("{}", "Some commands are missing:".red());
+        println!("{}", "The following commands are missing:\n".red());
         for cmd in &missing {
-            println!("{}", cmd.red());
+            println!("{}", cmd.replace("not installed", "").red());
         }
         println!("{summary}");
         anyhow::bail!("{} command(s) missing", missing.len());
     }
-}
-
-fn create_availability_check_script(shell: &str, cmd: &str) -> String {
-    let nushell_template = r#"
-if (try { which {cmd} } catch { null }) != null {
-    print "{cmd} installed"
-} else {
-    print "{cmd} not installed"
-}"#;
-
-    let posix_template = r#"
-if command -v "{cmd}" >/dev/null 2>&1; then
-    echo "{cmd} installed"
-else
-    echo "{cmd} not installed"
-fi"#;
-
-    let script = match shell {
-        "nu" | "nushell" => nushell_template,
-        _ => posix_template,
-    };
-
-    script.replace("{cmd}", cmd)
-}
-
-fn main() -> Result<()> {
-    let args = Args::parse();
-
-    let commands = match args.file {
-        Some(path) => fs::read_to_string(path)?
-            .lines()
-            .filter(|line| !line.trim().is_empty() && !line.starts_with('#'))
-            .map(|l| l.trim().to_string())
-            .collect(),
-        None => args.commands,
-    };
-
-    if commands.is_empty() {
-        anyhow::bail!("No commands specified");
-    }
-
-    println!("Checking Docker image: {}", args.image.to_string().yellow());
-    println!(
-        "Checking {} command(s):\n",
-        commands.len().to_string().yellow()
-    );
-
-    let script = commands
-        .iter()
-        .map(|cmd| create_availability_check_script(args.shell.as_str(), cmd))
-        .collect::<Vec<_>>()
-        .join("; ");
-
-    let mut docker_cmd = build_docker_cmd(&args.image, &args.shell);
-    // let (installed, missing) = get_installed_and_missing_commands(script, &mut docker_cmd)?;
-    let (installed, missing) = get_installed_and_missing_commands_new(script, &mut docker_cmd)?;
-    create_summary(installed, missing)
 }

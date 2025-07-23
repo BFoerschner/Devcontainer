@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
 update_os() {
-  mkdir -p "$HOME/.local/bin"
-  export PATH="$HOME/.local/bin:$PATH"
+  CONTAINER_INSTALL=${1:-false}
 
-  # Update system
+  mkdir -p "$HOME/.local/bin"
+  apt-get update
+  apt-get install -y apt-utils software-properties-common
+  add-apt-repository -y ppa:git-core/ppa
   apt-get update && apt-get upgrade -y && apt-get autoremove -y
 
-  # Install nice to have packages
+  # common packages
   apt-get install -y \
     curl \
     automake \
@@ -28,7 +30,7 @@ update_os() {
     vim \
     rsync
 
-  # Install dependencies
+  # dependencies
   apt-get install -y \
     expat \
     libxml2-dev \
@@ -42,7 +44,6 @@ update_os() {
     libsmbclient \
     libsmbclient-dev \
     libclang-dev \
-    software-properties-common \
     build-essential \
     pkg-config \
     libevent-dev \
@@ -52,9 +53,8 @@ update_os() {
     python3-pip \
     python3-venv
 
-  # Handle container environment
-  if grep -q docker /proc/1/cgroup 2>/dev/null; then
+  if $CONTAINER_INSTALL; then
     apt-get install -y unminimize
-    yes | unminimize 2>/dev/null
+    yes | unminimize 2>/dev/null || true
   fi
 }

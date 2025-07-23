@@ -5,8 +5,7 @@ cleanup_caches() {
   go clean -modcache
   uv cache clean
   [ -d "$HOME"/.cargo/registry ] && rm -rf "$HOME"/.cargo/registry
-  apt-get clean &&
-    apt-get autoclean &&
-    apt-get autoremove -y
+  apt-get autoremove -y &&
+    apt-get clean &&
+    apt-get autoclean
 }
-

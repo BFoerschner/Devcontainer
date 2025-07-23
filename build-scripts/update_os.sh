@@ -15,6 +15,7 @@ update_os() {
     automake \
     wget \
     unzip \
+    zip \
     stow \
     cmake \
     gnupg \

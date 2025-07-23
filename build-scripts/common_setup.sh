@@ -11,5 +11,5 @@ setup_environment() {
   export PATH="$HOME/.cargo/bin:$PATH"
   export PATH="$HOME/.local/bin:$PATH"
 
-  eval "$(fnm env)" 2>/dev/null || true
+  eval "$(fnm env)" 2>/dev/null
 }

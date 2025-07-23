@@ -5,11 +5,14 @@ BUILD_SCRIPTS_DIR="/root/build-scripts"
 
 source "$BUILD_SCRIPTS_DIR"/logging.sh
 source "$BUILD_SCRIPTS_DIR"/common_setup.sh
-source "$BUILD_SCRIPTS_DIR"/tools.sh
 source "$BUILD_SCRIPTS_DIR"/cleanup_caches.sh
+source "$BUILD_SCRIPTS_DIR"/tools.sh
+source "$BUILD_SCRIPTS_DIR"/dotfiles.sh
 
 setup_environment
 
+install_starship
+install_dotfiles
 install_neovim
 install_neovim_plugins
 

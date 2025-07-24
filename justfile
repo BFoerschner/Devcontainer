@@ -18,8 +18,7 @@ build CONTAINER: build-base
 # Test base image commands with zsh configuration
 test CONTAINER:
     @echo "Testing {{CONTAINER}} image commands..."
-    cd ccheck \
-      && cargo build --release \
-      && ./target/release/ccheck devcontainer_{{CONTAINER}} \
+    cargo install --git https://github.com/bfoerschner/ccheck.git
+    ccheck devcontainer_{{CONTAINER}} \
       -s zsh \
-      -f ../test/commands_{{CONTAINER}}.txt
+      -f test/commands_{{CONTAINER}}.txt

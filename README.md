@@ -1,107 +1,41 @@
-# Devcontainer (tmux based workflow)
+# CLI-Ready Development Environment
 
-<!--toc:start-->
+This repository contains a fully-configured development environment with modern CLI tools for a seamless 
+terminal-based development experience.
 
-- [Devcontainer (tmux based workflow)](#devcontainer-tmux-based-workflow)
-  - [Usage](#usage)
-  - [Tools](#tools)
-  <!--toc:end-->
+## Overview
+
+The development environment is based on the Dockerimage [Ubuntu:rolling](https://hub.docker.com/_/ubuntu). For a more 
+detailed overview of the tools included in this Image see the [TOOLS](/docs/TOOLS.md) documentation.
+
+### Features:
+- **Consistent Theming**: Dark themes and modern interfaces
+- **Modern DX**: Tools are selected to be easy to use and integrate with other tools
+- **Shell Integration**: Optimized completions and aliases
+- **Performance**: Fast tools that work well in containerized environments
+- **Cross-Tool Workflows**: Output from one tool flows naturally to another
 
 ## Usage
 
-### docker run
-
+### Start the container like this
 ```bash
 docker run \
-  -v "$HOME/.ssh/:/home/dev/.ssh:ro" \
-  -v "/var/run/docker.sock:/var/run/docker.sock:ro" \
-  -v "/dev/bus/usb:/dev/bus/usb" \
-  -v $PWD/:/home/dev/host
-  -e LANG="C.UTF-8"
-  -e LC_ALL="C.UTF-8"
-  --rm
-  -it
-  bfoerschner/devcontainer:latest
+  -v $HOME/.ssh/:/root/.ssh \ # Mount your SSH keys
+  -v /var/run/docker.sock:/var/run/docker.sock \ # Mount Docker socket so we can control the hosts docker
+  -v $PWD/:/root/host \ # Mount the host directory so we can edit files
+  -e DISPLAY="host.docker.internal:0" \ # Share your display with the container
+  -e LANG="C.UTF-8" \ # Set the locale to C.UTF-8
+  -e LC_ALL="C.UTF-8" \ # Set the locale to C.UTF-8
+  --name devcontainer \ # Name the container for later reuse (so we don't need to restart it every time
+  -it bfoerschner/devcontainer:latest
 ```
 
-## Tools
+### After you exited the container you can reuse it again like this
+```bash
+docker start -i devcontainer # the name you gave it earlier
+```
 
-- [visidata](https://www.visidata.org/)
-  Interactive multitool for tabular data
-  - apt
-- [yq](https://github.com/mikefarah/yq)
-  YAML, JSON and XML processor
-  - installscript
-- [lazygit](https://github.com/jesseduffield/lazygit)
-  Git TUI
-  - installscript
-- [delta](https://github.com/dandavison/delta)
-  Difftool
-  - apt
-- [harlequin](https://harlequin.sh/)
-  SQL Manager
-  - installscript
-- [mitmproxy](https://mitmproxy.org/)
-  Interactive HTTPS proxy
-  - installscript
-- [nap](https://github.com/maaslalani/nap)
-  Snippet Manager
-  - installscript
-- [ctop](https://github.com/bcicen/ctop) (docker container metrics)
-  Container metrics
-  - installscript
-- [jrnl](https://github.com/jrnl-org/jrnl)
-  cli journal
-  - installscript
-- [pipx](https://github.com/pypa/pipx)
-  Install python applications easier
-  - apt
-- [fjira](https://github.com/mk-5/fjira)
-  Jira TUI application
-  - installscript
-- [hurl](https://hurl.dev/)
-  HTTP Runner
-  - installscript
-- [pass](https://www.passwordstore.org/)
-  CLI Password manager with totp
-  [totp](https://news.ycombinator.com/item?id=39495378)
-  - installscript
-- [navi](https://github.com/denisidoro/navi)
-  Interactive cheatsheet tool for cli
-  - installscript
-- [termscp](https://github.com/veeso/termscp)
-  scp for cli
-  - installscript
-- [sen](https://github.com/TomasTomecek/sen)
-  docker management tui
-  - zsh docker alias
-- [dive](https://github.com/wagoodman/dive)
-  Docker filesystem viewer
-  - zsh docker alias
-- [fd](https://github.com/sharkdp/fd)
-  Alternative to find
-  - apt + symlink /usr/bin/fdfind -> ~/.local/bin/fd
-- [bat](https://github.com/sharkdp/bat)
-  A cat clone with syntax highlighting and Git integration
-  - apt + symlink /usr/bin/batcat -> ~/.local/bin/bat
-- [eza](https://github.com/eza-community/eza)
-  eza is a modern alternative for ls
-  - cargo
-- [duf](https://github.com/muesli/duf)
-  modern df alternative
-  - apt
-- [dust](https://github.com/bootandy/dust)
-  modern du alternative
-  - cargo
-- [httpie](https://github.com/httpie/cli)
-  cli http rest client
-  - pipx
-- [doggo](https://github.com/mr-karan/doggo)
-  doggo is a modern command-line DNS client (like dig)
-  - go install
-- [lazydocker](https://github.com/jesseduffield/lazydocker)
-  A simple terminal UI for both docker and docker-compose
-  - go install
-- [mmv](https://github.com/itchyny/mmv)
-  mass rename files with $EDITOR
-  - go install
+### If, for some reason, the container throws you out and it's still running use this command
+```bash
+docker attach -i devcontainer # the name you gave it earlier
+```

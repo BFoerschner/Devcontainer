@@ -30,12 +30,12 @@ docker run \
   -it bfoerschner/devcontainer:latest
 ```
 
-### After you exited the container you can reuse it again like this
+### If the container is stopped then you can start it interactively like this
 ```bash
 docker start -i devcontainer # the name you gave it earlier
 ```
 
-### If, for some reason, the container throws you out and it's still running use this command
+### If the container is still running then you can attach to it like this
 ```bash
 docker attach -i devcontainer # the name you gave it earlier
 ```

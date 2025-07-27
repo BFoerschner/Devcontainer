@@ -1,5 +1,7 @@
 name: Docker Build and Push
 
+run-name: Docker Build ${{ github.run_number }}
+
 on:
   workflow_dispatch:
     inputs:
@@ -67,7 +69,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,retention-days=7
           outputs: type=oci,dest=/tmp/image.tar
 
       - name: Load image for security scanning
@@ -109,7 +111,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,retention-days=7
 
       - name: Generate build summary
         run: |

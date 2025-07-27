@@ -51,7 +51,7 @@ This document provides comprehensive documentation for all tools installed insid
 
 ---
 
-### eza
+### [eza](https://github.com/eza-community/eza)
 **Purpose**: Modern replacement for `ls` with icons and git integration  
 
 
@@ -70,7 +70,7 @@ eza -l --sort=size
 eza -l --sort=modified
 ```
 
-### fd-find
+### [fd-find](https://github.com/sharkdp/fd)
 **Purpose**: Simple, fast alternative to `find`  
 
 
@@ -88,7 +88,7 @@ fd -x rm {}
 fd -H pattern
 ```
 
-### fzf
+### [fzf](https://github.com/junegunn/fzf)
 **Purpose**: Command-line fuzzy finder  
 
 
@@ -106,7 +106,7 @@ history | fzf
 vim $(fzf)
 ```
 
-### bat
+### [bat](https://github.com/sharkdp/bat)
 **Purpose**: Syntax-highlighted file viewer  
 
 
@@ -121,7 +121,7 @@ bat -n file.js
 bat --paging=always large-file.log
 ```
 
-### mmv
+### [mmv](https://github.com/itchyny/mmv)
 **Purpose**: Rename multiple files with your editor  
 
 
@@ -136,7 +136,7 @@ mmv -e vim '*.md'
 mmv -n '*.py'
 ```
 
-### termscp
+### [termscp](https://github.com/veeso/termscp)
 **Purpose**: Terminal file transfer client  
 
 
@@ -148,7 +148,7 @@ termscp -a sftp://user@host
 termscp -T /local/file user@host:/remote/path
 ```
 
-### ripgrep
+### [ripgrep](https://github.com/BurntSushi/ripgrep)
 **Purpose**: Extremely fast grep replacement  
 
 
@@ -166,7 +166,7 @@ rg -i pattern
 rg -C 3 pattern
 ```
 
-### choose
+### [choose](https://github.com/theryangeary/choose)
 **Purpose**: Human-friendly alternative to `cut`  
 
 
@@ -181,7 +181,7 @@ echo "a b c d e" | choose 1:4
 echo "a b c d e" | choose -1
 ```
 
-### pandoc
+### [pandoc](https://github.com/jgm/pandoc)
 **Purpose**: Universal document converter  
 
 
@@ -196,7 +196,7 @@ pandoc document.md -o document.pdf
 pandoc document.md -s --css=style.css -o document.html
 ```
 
-### silicon
+### [silicon](https://github.com/Aloxaf/silicon)
 **Purpose**: Create beautiful code screenshots  
 
 
@@ -211,7 +211,7 @@ silicon --from-clipboard -o image.png
 silicon --theme Dracula main.rs -o output.png
 ```
 
-### procs
+### [procs](https://github.com/dalance/procs)
 **Purpose**: Modern replacement for `ps`  
 
 
@@ -229,7 +229,7 @@ procs --tree
 procs --sort cpu
 ```
 
-### du-dust
+### [du-dust](https://github.com/bootandy/dust)
 **Purpose**: More intuitive version of `du` (aliased as `du`)  
 
 
@@ -245,7 +245,7 @@ dust -d 3
 dust -p
 ```
 
-### duf
+### [duf](https://github.com/muesli/duf)
 **Purpose**: Better disk usage utility (aliased as `df`)  
 
 
@@ -261,7 +261,7 @@ duf --only local
 duf --json
 ```
 
-### lazygit
+### [lazygit](https://github.com/jesseduffield/lazygit)
 **Purpose**: Terminal UI for Git operations  
 
 
@@ -272,7 +272,7 @@ lazygit
 
 **Key shortcuts**: `space` (stage), `c` (commit), `P` (push), `p` (pull), `b` (branch)
 
-### git-delta
+### [git-delta](https://github.com/dandavison/delta)
 **Purpose**: Syntax-highlighted git diff viewer  
 
 
@@ -282,7 +282,7 @@ git config --global core.pager delta
 git config --global delta.side-by-side true
 ```
 
-### gh
+### [gh](https://github.com/cli/cli)
 **Purpose**: GitHub CLI  
 
 
@@ -297,7 +297,7 @@ gh pr create --title "Feature" --body "Description"
 gh issue list
 ```
 
-### difftastic
+### [difftastic](https://github.com/Wilfred/difftastic)
 **Purpose**: Structural diff tool that understands syntax  
 
 
@@ -309,7 +309,7 @@ difft file1.rs file2.rs
 git config --global diff.tool difftastic
 ```
 
-### lazydocker
+### [lazydocker](https://github.com/jesseduffield/lazydocker)
 **Purpose**: Terminal UI for Docker management  
 
 
@@ -320,7 +320,7 @@ lazydocker
 
 **Key shortcuts**: `d` (delete), `e` (exec), `s` (start/stop), `r` (restart), `l` (logs)
 
-### dive
+### [dive](https://github.com/wagoodman/dive)
 **Purpose**: Docker image layer analyzer  
 
 
@@ -332,7 +332,7 @@ dive myimage:tag
 dive --ci myimage:tag
 ```
 
-### docker
+### [docker](https://github.com/docker/cli)
 **Purpose**: Container runtime  
 
 
@@ -347,7 +347,7 @@ docker build -t myapp .
 docker ps -a
 ```
 
-### kubectl
+### [kubectl](https://github.com/kubernetes/kubectl)
 **Purpose**: Kubernetes CLI  
 
 
@@ -362,7 +362,7 @@ kubectl apply -f deployment.yaml
 kubectl logs -f pod-name
 ```
 
-### terraform
+### [terraform](https://github.com/hashicorp/terraform)
 **Purpose**: Infrastructure as Code  
 
 ```bash
@@ -376,7 +376,7 @@ terraform plan
 terraform apply
 ```
 
-### neovim
+### [neovim](https://github.com/neovim/neovim)
 **Purpose**: Extensible text editor  
 
 
@@ -396,7 +396,7 @@ nvim file.txt
 :Mason
 ```
 
-### tmux
+### [tmux](https://github.com/tmux/tmux)
 **Purpose**: Terminal multiplexer  
 
 
@@ -413,7 +413,7 @@ tmux attach -t mysession
 
 **Key shortcuts** (Ctrl+b prefix): `c` (new window), `"` (horizontal split), `%` (vertical split)
 
-### starship
+### [starship](https://github.com/starship/starship)
 **Purpose**: Cross-shell customizable prompt  
 
 Features: Git status, language versions, cloud context, fast performance
@@ -423,7 +423,7 @@ Features: Git status, language versions, cloud context, fast performance
 ~/.config/starship.toml
 ```
 
-### direnv
+### [direnv](https://github.com/direnv/direnv)
 **Purpose**: Environment variable management per directory  
 
 ```bash
@@ -434,7 +434,7 @@ direnv allow
 echo 'export API_KEY="secret"' > .envrc
 ```
 
-### carapace
+### [carapace](https://github.com/carapace-sh/carapace-bin)
 **Purpose**: Multi-shell completion generator  
 
 
@@ -447,7 +447,7 @@ carapace git
 carapace --list
 ```
 
-### harlequin
+### [harlequin](https://github.com/tconbeer/harlequin)
 **Purpose**: Terminal-based SQL IDE  
 
 
@@ -462,7 +462,7 @@ harlequin database.db
 harlequin db1.db postgres://host/db2
 ```
 
-### visidata
+### [visidata](https://github.com/saulpw/visidata)
 **Purpose**: Terminal spreadsheet multitool  
 
 ```bash
@@ -476,7 +476,7 @@ vd data.json database.db data.xlsx
 vd https://example.com/data.csv
 ```
 
-### httpie
+### [httpie](https://github.com/httpie/httpie)
 **Purpose**: User-friendly HTTP client  
 
 ```bash
@@ -490,7 +490,7 @@ http POST api.example.com/users name=John age:=29
 http -a user:pass GET api.example.com/protected
 ```
 
-### mitmproxy
+### [mitmproxy](https://github.com/mitmproxy/mitmproxy)
 **Purpose**: Interactive HTTPS proxy  
 
 ```bash
@@ -504,7 +504,7 @@ mitmweb
 mitmdump
 ```
 
-### claude-code
+### [claude-code](https://github.com/anthropics/claude-code)
 **Purpose**: AI-powered code assistant  
 
 
@@ -519,7 +519,7 @@ claude-code "explain this function" < function.js
 claude-code --help
 ```
 
-### llm
+### [llm](https://github.com/simonw/llm)
 **Purpose**: Large Language Model CLI  
 
 
@@ -534,7 +534,7 @@ cat README.md | llm "Summarize this document"
 llm install llm-gpt4all
 ```
 
-### ansible
+### [ansible](https://github.com/ansible/ansible)
 **Purpose**: IT automation platform  
 
 ```bash
@@ -548,7 +548,7 @@ ansible all -m ping
 ansible-inventory --list
 ```
 
-### just
+### [just](https://github.com/casey/just)
 **Purpose**: Command runner and build tool  
 
 
@@ -563,7 +563,7 @@ just --list
 just build
 ```
 
-### yq
+### [yq](https://github.com/mikefarah/yq)
 **Purpose**: YAML/JSON/XML processor  
 
 
@@ -578,7 +578,7 @@ yq '.key = "new-value"' -i file.yaml
 yq -o json file.yaml
 ```
 
-### jrnl
+### [jrnl](https://github.com/jrnl-org/jrnl)
 **Purpose**: Command-line journaling  
 
 
@@ -593,7 +593,7 @@ jrnl -n 10
 jrnl @work --from "last month"
 ```
 
-### nap
+### [nap](https://github.com/maaslalani/nap)
 **Purpose**: Code snippet manager  
 
 
@@ -608,7 +608,7 @@ nap add myfile.go
 nap search "function"
 ```
 
-### nu
+### [nu](https://github.com/nushell/nushell)
 **Purpose**: Modern shell with structured data  
 
 ```bash
@@ -622,7 +622,7 @@ ls | where size > 1KB | sort-by modified
 open data.json | get items | length
 ```
 
-### tea
+### [tea](https://gitea.com/gitea/tea)
 **Purpose**: Gitea CLI client  
 
 ```bash

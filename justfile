@@ -22,3 +22,9 @@ test CONTAINER:
     ccheck devcontainer_{{CONTAINER}} \
       -s zsh \
       -f test/commands_{{CONTAINER}}.txt
+
+# Trigger Docker build workflow on GitHub
+docker-build:
+    @echo "Triggering Docker build workflow on GitHub..."
+    gh workflow run docker-build.yml --ref $(git branch --show-current)
+    @echo "Workflow triggered! Check status with: gh run list --workflow=docker-build.yml"

@@ -68,12 +68,12 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          outputs: type=docker,dest=/tmp/image.tar
+          outputs: type=oci,dest=/tmp/image.tar
 
       - name: Load image for security scanning
         run: |
-          docker load --input /tmp/image.tar
-          docker tag ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest local-scan-image:latest
+          docker buildx imagetools inspect oci-layout:/tmp/image.tar --format "{{ json . }}" | jq -r '.manifest.digest' > /tmp/digest.txt
+          docker buildx build --platform linux/amd64 --build-arg INIT_SCRIPT_PATH=init_scripts/init_full.sh --tag local-scan-image:latest --load .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master

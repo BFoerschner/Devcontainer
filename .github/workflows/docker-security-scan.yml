@@ -96,7 +96,7 @@ jobs:
           echo "- **Build Number**: ${{ github.event.inputs.build_number || github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Scan Date**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ -f "trivy-results.json" ]; then
             CRITICAL=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity=="CRITICAL")] | length' trivy-results.json 2>/dev/null || echo "0")
             HIGH=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity=="HIGH")] | length' trivy-results.json 2>/dev/null || echo "0")
@@ -109,6 +109,7 @@ jobs:
             echo "- **Medium**: $MEDIUM" >> $GITHUB_STEP_SUMMARY
             echo "- **Low**: $LOW" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Security scan completed successfully!" >> $GITHUB_STEP_SUMMARY
+

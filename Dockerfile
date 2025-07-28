@@ -11,9 +11,12 @@ ARG ENTRYPOINT
 ################################################################################
 FROM ${BASE_IMAGE}
 
-# Re-declare args after FROM
+################################################################################
+#  Re-declare args after FROM  -------------------------------------------------
+################################################################################
 ARG INIT_SCRIPT_PATH
-RUN test -n "$INIT_SCRIPT_PATH" || (echo "ERROR: INIT_SCRIPT_PATH build argument is required" && exit 1)
+RUN test -n "$INIT_SCRIPT_PATH" \
+  || (echo "ERROR: INIT_SCRIPT_PATH build argument is required" && exit 1)
 
 ################################################################################
 #  Copy relevant files over  ---------------------------------------------------
@@ -22,11 +25,12 @@ COPY ["bin", "/root/.local/bin"]
 COPY ["init_scripts", "/root/init_scripts"]
 COPY ["build-scripts", "/root/build-scripts"]
 COPY ["$INIT_SCRIPT_PATH", "/root/init.sh"]
+WORKDIR /root
 
 ################################################################################
-#  Install programs + cleanup afterwards  --------------------------------------
+#  Installing everything in one go to avoid unnecessarily bulking up the image
+#  with lots of intermediate layers
 ################################################################################
-WORKDIR /root
 RUN \
   ./init.sh && \
   rm -rf ./init_scripts && \

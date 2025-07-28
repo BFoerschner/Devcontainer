@@ -1,5 +1,31 @@
 #!/usr/bin/env bash
 
+eget_with_retry() {
+  local max_attempts=2
+  local delay=30
+  local attempt=1
+  
+  while [ $attempt -le $max_attempts ]; do
+    set +e
+    eget "$@"
+    local exit_code=$?
+    set -e
+    
+    if [ $exit_code -eq 0 ]; then
+      return 0
+    else
+      if [ $attempt -lt $max_attempts ]; then
+        echo "eget failed (attempt $attempt/$max_attempts), retrying in ${delay}s..."
+        sleep $delay
+      fi
+      ((attempt++))
+    fi
+  done
+  
+  echo "eget failed after $max_attempts attempts"
+  return 1
+}
+
 install_terraform() {
   log "Installing terraform"
   TMP_DIR=$(mktemp -d)
@@ -12,24 +38,24 @@ install_terraform() {
 
 install_pandoc() {
   log "Installing pandoc"
-  eget "jgm/pandoc" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
+  eget_with_retry "jgm/pandoc" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
 }
 
 install_carapace() {
   log "Installing carapace"
-  eget "carapace-sh/carapace-bin" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz --file "carapace"
+  eget_with_retry "carapace-sh/carapace-bin" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz --file "carapace"
 }
 
 install_gh_cli() {
   log "Installing github cli"
-  eget "cli/cli" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
+  eget_with_retry "cli/cli" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
 }
 
 install_tmux() {
   log "Installing tmux"
   TMPDIR=$(mktemp -d)
 
-  eget tmux/tmux --download-only --to "$TMPDIR/tmux.tar.gz"
+  eget_with_retry tmux/tmux --download-only --to "$TMPDIR/tmux.tar.gz"
   cd "$TMPDIR" || exit
   echo "$TMPDIR"
 
@@ -43,11 +69,7 @@ install_tmux() {
   cd "$TMUX_SOURCE_DIR" || exit
 
   ./configure && make
-  if ((EUID == 0)); then
-    make install
-  else
-    sudo make install
-  fi
+  make install
 
   cd "$HOME" || exit
   rm -rf "$TMPDIR"
@@ -60,20 +82,6 @@ install_tmux_plugin_manager() {
   [ -d "$TPM_PLUGINS_DIR" ] && rm -rf "$TPM_PLUGINS_DIR"
   git clone https://github.com/tmux-plugins/tpm "$TPM_PLUGINS_DIR"
   "$TPM_PLUGINS_DIR"/scripts/install_plugins.sh
-}
-
-install_docker() {
-  log "Installing docker"
-  # check if we need sudo or not
-  if [[ $EUID -ne 0 ]]; then
-    PRIVILEGE="sudo"
-  else
-    PRIVILEGE=""
-  fi
-
-  log "Installing Docker..."
-  curl -fsSL https://get.docker.com | ${PRIVILEGE} sh
-  docker --version && log "Docker installation complete"
 }
 
 install_kubectl() {
@@ -100,11 +108,6 @@ install_neovim() {
   OS=$(uname -s)
   ARCH=$(uname -m)
   TAG=$(curl -s "https://api.github.com/repos/neovim/neovim/releases/latest" | jq -r .tag_name)
-  if ((EUID == 0)); then
-    SUDO=""
-  else
-    SUDO="sudo"
-  fi
 
   # Determine asset and install directory
   if [ "$OS" = "Linux" ]; then
@@ -131,11 +134,11 @@ install_neovim() {
   tar -xzf "$TMP_DIR/nvim.tar.gz" -C "$TMP_DIR"
 
   log "Moving $TMP_DIR/$ARCH to $INSTALL_DIR"
-  $SUDO rm -rf "$INSTALL_DIR"
-  $SUDO mv "$TMP_DIR/$ARCH" "$INSTALL_DIR"
+  rm -rf "$INSTALL_DIR"
+  mv "$TMP_DIR/$ARCH" "$INSTALL_DIR"
 
   log "Linking $INSTALL_DIR/bin/nvim to $HOME/.local/bin/nvim"
-  $SUDO ln -sf "$INSTALL_DIR/bin/nvim" "$HOME"/.local/bin/nvim
+  ln -sf "$INSTALL_DIR/bin/nvim" "$HOME"/.local/bin/nvim
 
   log "Cleaning up $TMP_DIR"
   rm -rf "$TMP_DIR"
@@ -178,7 +181,6 @@ install_tools() {
   install_gh_cli
   install_tmux
   install_tmux_plugin_manager
-  install_docker
   install_kubectl
   install_neovim
   install_neovim_plugins

@@ -17,7 +17,7 @@ source "$BUILD_SCRIPTS_DIR"/cleanup_caches.sh
 
 setup_environment
 
-update_os true # true = script is running inside a container
+update_os true
 install_languages
 install_dotfiles
 install_go_tools

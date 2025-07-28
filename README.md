@@ -1,53 +1,39 @@
 # CLI-Ready Development Environment
 
-## Table of Contents
-
-<!--toc:start-->
-- [CLI-Ready Development Environment](#cli-ready-development-environment)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-    - [Goals:](#goals)
-    - [Non-Goals:](#non-goals)
-  - [Usage](#usage)
-      - [First run](#first-run)
-      - [Starting/attaching](#startingattaching)
-<!--toc:end-->
-
 ## Overview
 
-This repository contains the build-scripts for a ready-to-use image ```bfoerschner/devcontainer``` creating a Terminal-based 
-development environment. The included tools are well-documented, fast and for the most part simple. The 
-image is optimized for  modern features and speed.
+This repository contains the source for the image ```bfoerschner/devcontainer```. It is a terminal-based development environment that is fully configured and ready to use. The image is based on [Ubuntu:rolling](https://hub.docker.com/_/ubuntu) and includes the tools you need for a modern terminal-based development environment.
 
-The Image is based on the Dockerimage [Ubuntu:rolling](https://hub.docker.com/_/ubuntu). The [TOOLS](/docs/TOOLS.md) page has more information 
-about the tools installed.
+This image contains a set of curated set of applications and tools that are meant to improve your productivity and protect your sanity when working on projects. The dotfiles for this container are located at [bfoerschner/dotfiles](https://github.com/bfoerschner/dotfiles). They play a huge role in how this container feels.
+
+I created the tool because I like to be able to have access to my personal development environment everywhere I can run docker. This is my take on how to solve the problem of having your own development environment with you at all times. As long as I have access to Linux containers via Docker I can be happy.
 
 ### Goals:
-- **Easy to use**: The tools are well-documented and easy to learn
-- **Configurable**: You can easily change the tools and their configuration
-- **Shell Integration**: Terminal-first approach with rich command completions and aliases
-- **Performance**: Fast tools that work well in containerized environments
+- **Ready to use**: The tools are pre-configured and ready to use
+- **Documentation**: The tools are well-documented
+- **Configurability**: The tools can be further configured to your needs
+- **Terminal**: The tools are designed to work well in a terminal
+- **Speed**: The tools are optimized for speed. Slow tools hinder the thinking process
 - **Updates**: The tools are updated regularly and when feasible compiled from source
 
 ### Non-Goals:
 - **Maintenance**: The tools are not maintained by the developer of this Dockerimage. Check the
-[TOOLS](/docs/TOOLS.md) page for information about where to get support for the specific tool.
-- **Compatibility**: The might or might not be compatible with other Linux distributions or other Dockerimages
+[TOOLS](/docs/TOOLS.md) page for information about where to go for the specific tools for support.
+- **Compatibility**: The tools might or might not be compatible with other Linux distributions or other Dockerimages
 - **Size**: The image is not optimized for size. It is optimized for speed and feature-completeness.
-
 
 ## Usage
 
 #### First run
 ```bash
 docker run \
-  -v $HOME/.ssh/:/root/.ssh \ # Mount your SSH keys
-  -v /var/run/docker.sock:/var/run/docker.sock \ # Mount Docker socket so we can control the hosts docker
-  -v $PWD/:/root/host \ # Mount the host directory so we can edit files
-  -e DISPLAY="host.docker.internal:0" \ # Share your display with the container
-  -e LANG="C.UTF-8" \ # Set the locale to C.UTF-8
-  -e LC_ALL="C.UTF-8" \ # Set the locale to C.UTF-8
-  --name devcontainer \ # Name the container for later reuse (so we don't need to restart it every time
+  -v $HOME/.ssh/:/root/.ssh \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v $PWD/:/root/host \
+  -e DISPLAY="host.docker.internal:0" \
+  -e LANG="C.UTF-8" \
+  -e LC_ALL="C.UTF-8" \
+  --name devcontainer \
   -i \
   -t \
   bfoerschner/devcontainer:latest

@@ -1,6 +1,6 @@
 # Development Tools Documentation
 
-This document provides comprehensive documentation for all tools installed inside the devcontainer
+This document provides comprehensive documentation for all tools installed inside the devcontainer. Tools are compiled from source when feasible. The tools are well-documented and for the most part easy to learn.
 
 ## Quick Reference
 

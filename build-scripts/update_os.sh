@@ -5,20 +5,18 @@ update_os() {
 
   mkdir -p "$HOME/.local/bin"
   apt-get update
-  apt-get install -y apt-utils software-properties-common
+  apt-get install -y apt-utils software-properties-common curl gnupg
   add-apt-repository -y ppa:git-core/ppa
   apt-get update && apt-get upgrade -y && apt-get autoremove -y
 
   # common packages
   apt-get install -y \
-    curl \
     automake \
     wget \
     unzip \
     zip \
     stow \
     cmake \
-    gnupg \
     man \
     tidy \
     git \

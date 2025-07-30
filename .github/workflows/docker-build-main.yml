@@ -4,6 +4,12 @@ run-name: Docker Build ${{ github.run_number }}
 
 on:
   workflow_dispatch:
+    inputs:
+      disable_cache:
+        description: 'Disable Docker build cache'
+        required: false
+        default: false
+        type: boolean
   push:
     branches:
       - master
@@ -86,8 +92,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max,retention-days=2
+          cache-from: ${{ github.event.inputs.disable_cache != 'true' && 'type=gha' || '' }}
+          cache-to: ${{ github.event.inputs.disable_cache != 'true' && 'type=gha,mode=max,retention-days=2' || '' }}
 
       - name: Set image name for scanning
         id: scan_image

@@ -1,5 +1,5 @@
 build CONTAINER BASE_IMAGE="ubuntu:rolling":
-    @echo "Building {{CONTAINER}} development image from Ubuntu rolling..."
+    @echo "Building {{CONTAINER}} development image from {{BASE_IMAGE}}..."
     docker build \
       --build-arg BASE_IMAGE={{BASE_IMAGE}} \
       --build-arg INIT_SCRIPT_PATH=init_scripts/init_{{CONTAINER}}.sh \

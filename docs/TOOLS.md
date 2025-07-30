@@ -28,6 +28,7 @@ This document provides comprehensive documentation for all tools installed insid
 | [dive](#dive)                 | Analyze Docker image layers | [Docs](https://github.com/wagoodman/dive)          |
 | [docker](#docker)                    | Container runtime           | [Docs](https://docs.docker.com/reference/cli/docker/)                          |
 | [kubectl](#kubectl)          | Kubernetes CLI              | [Docs](https://kubernetes.io/docs/reference/kubectl/)     |
+| [k9s](#k9s)                   | Kubernetes CLI dashboard    | [Docs](https://k9scli.io/)                                |
 | [terraform](#terraform)       | Infrastructure as Code      | [Docs](https://developer.hashicorp.com/terraform/docs)    |
 | [neovim](#neovim)       | Advanced text editor                | [Docs](https://neovim.io/doc/)                            |
 | [tmux](#tmux)             | Terminal multiplexer                | [Docs](https://man7.org/linux/man-pages/man1/tmux.1.html) |
@@ -361,6 +362,23 @@ kubectl apply -f deployment.yaml
 # View logs
 kubectl logs -f pod-name
 ```
+
+### [k9s](https://github.com/derailed/k9s)
+**Purpose**: Kubernetes CLI dashboard with real-time monitoring  
+
+
+```bash
+# Launch k9s
+k9s
+
+# Connect to specific cluster
+k9s --context my-cluster
+
+# Use specific namespace
+k9s -n my-namespace
+```
+
+**Key shortcuts**: `:` (command mode), `/` (filter), `d` (describe), `l` (logs), `e` (edit), `?` (help)
 
 ### [terraform](https://github.com/hashicorp/terraform)
 **Purpose**: Infrastructure as Code  

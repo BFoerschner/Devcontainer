@@ -11,5 +11,6 @@ setup_environment() {
   export PATH="$HOME/.cargo/bin:$PATH"
   export PATH="$HOME/.local/bin:$PATH"
 
+  export KUBE_EDITOR=nvim
   eval "$(fnm env)" 2>/dev/null
 }

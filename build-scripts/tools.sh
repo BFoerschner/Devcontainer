@@ -36,6 +36,11 @@ install_terraform() {
   rm -rf "$TMP_DIR"
 }
 
+install_k9s() {
+  log "Installing k9s"
+  eget "derailed/k9s" --to "$HOME/.local/bin" --asset ^musl --asset ^json --asset ^libgit --asset .tar.gz
+}
+
 install_pandoc() {
   log "Installing pandoc"
   eget_with_retry "jgm/pandoc" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
@@ -182,6 +187,7 @@ install_tools() {
   install_tmux
   install_tmux_plugin_manager
   install_kubectl
+  install_k9s
   install_neovim
   install_neovim_plugins
 }

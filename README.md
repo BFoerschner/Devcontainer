@@ -1,4 +1,9 @@
-# CLI-Ready Development Environment
+# Devcontainer
+
+<p align="center">
+  <img src="docs/images/devcontainer.jpg" alt="Devcontainer image">
+  <sup><sup>source: ai</sup></sup>
+</p>
 
 ## Overview
 

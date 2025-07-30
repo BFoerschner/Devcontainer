@@ -88,15 +88,14 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max,retention-days=2
-          outputs: type=docker,dest=/tmp/image.tar
 
-      - name: Load Docker image for scanning
+      - name: Set image name for scanning
+        id: scan_image
         run: |
-          docker load < /tmp/image.tar
-          # Get the image name from the loaded image and tag it for scanning
-          IMAGE_ID=$(docker images --format "table {{.Repository}}:{{.Tag}}\t{{.ID}}" | grep -v "REPOSITORY" | head -1 | awk '{print $2}')
-          docker tag $IMAGE_ID local-scan-image:latest
-          echo "Loaded and tagged image for scanning: $IMAGE_ID -> local-scan-image:latest"
+          REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          SCAN_IMAGE="${{ env.REGISTRY }}/${REPO_OWNER}/${{ env.IMAGE_NAME }}:latest"
+          echo "scan_image=${SCAN_IMAGE}" >> $GITHUB_OUTPUT
+          echo "Using image for scanning: ${SCAN_IMAGE}"
 
       - name: Install Syft
         uses: anchore/sbom-action/download-syft@v0.17.0
@@ -107,14 +106,14 @@ jobs:
 
       - name: Generate SBOM with Syft
         run: |
-          syft local-scan-image:latest -o spdx-json=sbom.json
-          syft local-scan-image:latest -o table=sbom.txt
+          syft ${{ steps.scan_image.outputs.scan_image }} -o spdx-json=sbom.json
+          syft ${{ steps.scan_image.outputs.scan_image }} -o table=sbom.txt
 
       - name: Run Grype vulnerability scanner
         run: |
-          grype local-scan-image:latest -o sarif=grype-results.sarif
-          grype local-scan-image:latest -o table --fail-on critical,high
-          grype local-scan-image:latest -o json=grype-results.json
+          grype ${{ steps.scan_image.outputs.scan_image }} -o sarif=grype-results.sarif
+          grype ${{ steps.scan_image.outputs.scan_image }} -o table --fail-on critical,high
+          grype ${{ steps.scan_image.outputs.scan_image }} -o json=grype-results.json
 
       - name: Upload Grype scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
@@ -138,7 +137,7 @@ jobs:
         if: success() && hashFiles('grype-results.json') != ''
         run: |
           echo "## Security Scan Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- **Image Scanned**: local-scan-image:latest (from build ${{ steps.version.outputs.build_number }})" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image Scanned**: ${{ steps.scan_image.outputs.scan_image }} (build ${{ steps.version.outputs.build_number }})" >> $GITHUB_STEP_SUMMARY
           echo "- **Scan Date**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 

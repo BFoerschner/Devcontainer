@@ -4,13 +4,13 @@ eget_with_retry() {
   local max_attempts=2
   local delay=30
   local attempt=1
-  
+
   while [ $attempt -le $max_attempts ]; do
     set +e
     eget "$@"
     local exit_code=$?
     set -e
-    
+
     if [ $exit_code -eq 0 ]; then
       return 0
     else
@@ -21,7 +21,7 @@ eget_with_retry() {
       ((attempt++))
     fi
   done
-  
+
   echo "eget failed after $max_attempts attempts"
   return 1
 }
@@ -178,6 +178,21 @@ install_starship() {
   curl -sS https://starship.rs/install.sh | sh -s -- -y
 }
 
+install_timewarrior() {
+  log "Installing timewarrior"
+  TMP_DIR=$(mktemp -d)
+  cd "$TMP_DIR" || exit
+
+  git clone --recurse-submodules https://github.com/GothenburgBitFactory/timewarrior
+  cd timewarrior || exit
+  git checkout stable
+
+  cmake -DCMAKE_BUILD_TYPE=release .
+  make
+  make install
+  cd "$HOME" && rm -rf "$TMP_DIR"
+}
+
 install_tools() {
   install_starship
   install_terraform
@@ -187,6 +202,7 @@ install_tools() {
   install_tmux
   install_tmux_plugin_manager
   install_kubectl
+  install_timewarrior
   install_k9s
   install_neovim
   install_neovim_plugins

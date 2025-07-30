@@ -48,6 +48,7 @@ This document provides comprehensive documentation for all tools installed insid
 | [nap](#nap) | Code snippet manager    | [Docs](https://github.com/maaslalani/nap) |
 | [nu](#nu) | Modern shell with structured data | [Docs](https://www.nushell.sh/book/)          |
 | [tea](#tea)   | Gitea CLI client                  | [Docs](https://docs.gitea.com/usage/cli/tea/) |
+| [timewarrior](#timewarrior) | Time tracking tool      | [Docs](https://timewarrior.net/docs/)         |
 
 
 ---
@@ -652,4 +653,27 @@ tea repos list
 
 # Create issue
 tea issues create --title "Bug" --body "Description"
+```
+
+### [timewarrior](https://github.com/GothenburgBitFactory/timewarrior)
+**Purpose**: Command-line time tracking tool  
+
+```bash
+# Start tracking
+timew start "Project work"
+
+# Stop current tracking
+timew stop
+
+# Track with tags
+timew start project:website coding
+
+# Show summary
+timew summary
+
+# Show today's time
+timew day
+
+# Track for specific duration
+timew track 9am - 5pm "Full day work"
 ```

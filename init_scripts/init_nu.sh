@@ -20,12 +20,8 @@ setup_environment
 update_os true
 install_languages
 install_dotfiles
-install_go_tools
-install_uv_tools
-install_cargo_tools
-install_npm_tools
-install_tools
-
+install_starship
+cargo install nu
 cleanup_caches
 
 log "changing default shell to zsh"

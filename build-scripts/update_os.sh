@@ -40,6 +40,7 @@ update_os() {
   # dependencies
   apt-get install -y \
     expat \
+    locales \
     libxml2-dev \
     libssl-dev \
     libfreetype6-dev \
@@ -64,4 +65,9 @@ update_os() {
     apt-get install -y unminimize
     yes | unminimize 2>/dev/null || true
   fi
+
+  echo "LC_ALL=en_US.UTF-8" >>/etc/environment
+  echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
+  echo "LANG=en_US.UTF-8" >/etc/locale.conf
+  locale-gen en_US.UTF-8
 }

@@ -28,7 +28,6 @@ update_os() {
     tar \
     zsh \
     ncdu \
-    direnv \
     vim \
     pass \
     pass-otp \

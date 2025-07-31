@@ -49,6 +49,7 @@ This document provides comprehensive documentation for all tools installed insid
 | [nu](#nu) | Modern shell with structured data | [Docs](https://www.nushell.sh/book/)          |
 | [tea](#tea)   | Gitea CLI client                  | [Docs](https://docs.gitea.com/usage/cli/tea/) |
 | [timewarrior](#timewarrior) | Time tracking tool      | [Docs](https://timewarrior.net/docs/)         |
+| [lnav](#lnav) | Log file navigator and analyzer | [Docs](https://docs.lnav.org/) |
 
 
 ---
@@ -677,3 +678,25 @@ timew day
 # Track for specific duration
 timew track 9am - 5pm "Full day work"
 ```
+
+### [lnav](https://github.com/tstack/lnav)
+**Purpose**: Log file navigator and analyzer with automatic format detection
+
+```bash
+# View log files
+lnav /var/log/syslog
+
+# Multiple log files
+lnav access.log error.log
+
+# From stdin
+tail -f /var/log/messages | lnav
+
+# Search logs
+lnav -c ';/error' logfile.log
+
+# SQL queries on logs
+lnav -c ';SELECT * FROM logline WHERE log_level = "error"' app.log
+```
+
+**Key shortcuts**: `/` (search), `n/N` (next/prev match), `t/T` (time navigation), `:` (command mode), `q` (quit)

@@ -78,3 +78,4 @@ tmux
 docker
 kubectl
 nvim
+lnav

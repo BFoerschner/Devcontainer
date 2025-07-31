@@ -46,6 +46,11 @@ install_pandoc() {
   eget_with_retry "jgm/pandoc" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
 }
 
+install_lnav() {
+  log "Installing lnav"
+  eget_with_retry "tstack/lnav" --to "$HOME/.local/bin" --asset ^libgit --asset .zip
+}
+
 install_carapace() {
   log "Installing carapace"
   eget_with_retry "carapace-sh/carapace-bin" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz --file "carapace"
@@ -204,6 +209,7 @@ install_tools() {
   install_kubectl
   install_timewarrior
   install_k9s
+  install_lnav
   install_neovim
   install_neovim_plugins
 }

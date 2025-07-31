@@ -6,16 +6,18 @@ update_os() {
   mkdir -p "$HOME/.local/bin"
   apt-get update
   apt-get install -y apt-utils software-properties-common curl gnupg
-  add-apt-repository -y ppa:git-core/ppa
-
+  apt-add-repository ppa:fish-shell/release-4 # fish
+  add-apt-repository -y ppa:git-core/ppa      # git
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list >/dev/null
+
   apt-get update && apt-get upgrade -y && apt-get autoremove -y
 
   # common packages
   apt-get install -y \
     automake \
     wget \
+    fish \
     unzip \
     zip \
     stow \

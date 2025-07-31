@@ -51,11 +51,6 @@ install_lnav() {
   eget_with_retry "tstack/lnav" --to "$HOME/.local/bin" --asset ^libgit --asset .zip
 }
 
-install_carapace() {
-  log "Installing carapace"
-  eget_with_retry "carapace-sh/carapace-bin" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz --file "carapace"
-}
-
 install_gh_cli() {
   log "Installing github cli"
   eget_with_retry "cli/cli" --to "$HOME/.local/bin" --asset ^musl --asset ^libgit --asset .tar.gz
@@ -202,7 +197,6 @@ install_tools() {
   install_starship
   install_terraform
   install_pandoc
-  install_carapace
   install_gh_cli
   install_tmux
   install_tmux_plugin_manager

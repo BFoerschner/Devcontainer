@@ -72,7 +72,6 @@ ansible
 starship
 terraform
 pandoc
-carapace
 gh
 tmux
 docker

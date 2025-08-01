@@ -28,6 +28,6 @@ install_tools
 
 cleanup_caches
 
-log "changing default shell to zsh"
-echo "/root/.cargo/bin/nu" >>/etc/shells
-chsh -s /root/.cargo/bin/nu root
+log "changing default shell to bash"
+log "default shell for tmux will be nu still"
+chsh -s /bin/bash root

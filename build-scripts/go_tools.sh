@@ -5,14 +5,14 @@
 go_install_helper() {
   repo="$1"
   latest_tag=$(curl -s "https://api.github.com/repos/$repo/releases/latest" | jq -r '.tag_name')
-  
+
   if [[ -z "$latest_tag" || "$latest_tag" == "null" ]]; then
     echo "Error: Could not fetch latest tag for $repo"
     return 1
   fi
-  
+
   module_path=$(curl -s "https://raw.githubusercontent.com/$repo/$latest_tag/go.mod" | head -1 | awk '{print $2}')
-  
+
   if [[ -z "$module_path" || "$module_path" == "null" ]]; then
     echo "Error: Could not fetch module path for $repo"
     return 1
@@ -26,7 +26,6 @@ install_go_tools() {
   go_install_helper zyedidia/eget
   go_install_helper jesseduffield/lazydocker
   go_install_helper jesseduffield/lazygit
-  go_install_helper itchyny/mmv
   go_install_helper maaslalani/nap
   go_install_helper junegunn/fzf
   go_install_helper muesli/duf
@@ -35,5 +34,6 @@ install_go_tools() {
   go_install_helper mikefarah/yq
   go_install_helper direnv/direnv
 
+  go install github.com/itchyny/mmv/cmd/mmv@latest
   go install code.gitea.io/tea@v0.10.1
 }

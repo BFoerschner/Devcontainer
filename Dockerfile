@@ -21,7 +21,6 @@ RUN test -n "$INIT_SCRIPT_PATH" \
 ################################################################################
 #  Copy relevant files over  ---------------------------------------------------
 ################################################################################
-COPY ["bin", "/root/.local/bin"]
 COPY ["init_scripts", "/root/init_scripts"]
 COPY ["build-scripts", "/root/build-scripts"]
 COPY ["$INIT_SCRIPT_PATH", "/root/init.sh"]

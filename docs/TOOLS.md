@@ -47,6 +47,7 @@ This document provides comprehensive documentation for all tools installed insid
 | [jrnl](#jrnl) | Command-line journaling | [Docs](https://jrnl.sh/en/latest/)              |
 | [nap](#nap) | Code snippet manager    | [Docs](https://github.com/maaslalani/nap) |
 | [nu](#nu) | Modern shell with structured data | [Docs](https://www.nushell.sh/book/)          |
+| [zoxide](#zoxide) | Smart directory jumper          | [Docs](https://github.com/ajeetdsouza/zoxide#configuration) |
 | [tea](#tea)   | Gitea CLI client                  | [Docs](https://docs.gitea.com/usage/cli/tea/) |
 | [timewarrior](#timewarrior) | Time tracking tool      | [Docs](https://timewarrior.net/docs/)         |
 | [lnav](#lnav) | Log file navigator and analyzer | [Docs](https://docs.lnav.org/) |
@@ -655,6 +656,32 @@ tea repos list
 # Create issue
 tea issues create --title "Bug" --body "Description"
 ```
+
+### [zoxide](https://github.com/ajeetdsouza/zoxide)
+**Purpose**: Smart directory jumper that learns your habits  
+
+```bash
+# Jump to directory (after some usage)
+z documents
+z proj
+
+# Add current directory to database
+zoxide add .
+
+# Remove directory from database
+zoxide remove /path/to/dir
+
+# Query database
+zoxide query web
+
+# Interactive selection
+zi
+
+# Edit database
+zoxide edit
+```
+
+**Setup**: Add `eval "$(zoxide init bash)"` to your shell config for the `z` command.
 
 ### [timewarrior](https://github.com/GothenburgBitFactory/timewarrior)
 **Purpose**: Command-line time tracking tool  

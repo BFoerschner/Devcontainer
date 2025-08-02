@@ -15,4 +15,5 @@ install_cargo_tools() {
   cargo install choose
   cargo install nu
   cargo install just
+  cargo install zoxide
 }

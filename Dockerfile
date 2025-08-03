@@ -40,4 +40,4 @@ RUN \
 #  Start in provided host directory and run TMUX -------------------------------
 ################################################################################
 WORKDIR /root/host
-ENTRYPOINT ["tmux", "new-session", "-A", "-s", "main"]
+ENTRYPOINT ["/root/.cargo/bin/nu", "-l", "-c", "/usr/local/bin/tmux new-session -A -s main"]

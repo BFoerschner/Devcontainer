@@ -70,5 +70,5 @@ if you detach from the running container by pressing ```ctrl-p + ctrl-q``` follo
 remove the remaining outputbuffer. Detaching like that will keep the container running in the background.
 ```bash
 # after detaching you can reattach to the container with:
-docker attach -i <container-name> 
+docker attach <container-name> 
 ```

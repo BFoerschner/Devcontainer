@@ -40,7 +40,6 @@ This document provides comprehensive documentation for all tools installed insid
 | [httpie](#httpie)          | User-friendly HTTP client | [Docs](https://httpie.io/docs/cli)         |
 | [mitmproxy](#mitmproxy) | Interactive HTTPS proxy   | [Docs](https://docs.mitmproxy.org/stable/) |
 | [claude-code](#claude-code)                                   | AI-powered code assistant | [Docs]("https://docs.anthropic.com/en/docs/claude-code/overview") |
-| [llm](#llm)       | Large Language Model CLI  | [Docs](https://llm.datasette.io/en/stable/)     |
 | [ansible](#ansible) | IT automation platform    | [Docs](https://docs.ansible.com/)                   |
 | [just](#just) | Command runner      | [Docs](https://just.systems/man/en/)     |
 | [yq](#yq) | YAML/JSON processor | [Docs](https://mikefarah.gitbook.io/yq/) |
@@ -540,20 +539,6 @@ claude-code "explain this function" < function.js
 claude-code --help
 ```
 
-### [llm](https://github.com/simonw/llm)
-**Purpose**: Large Language Model CLI  
-
-
-```bash
-# Ask question
-llm "Explain Docker containers"
-
-# Process content
-cat README.md | llm "Summarize this document"
-
-# Install models
-llm install llm-gpt4all
-```
 
 ### [ansible](https://github.com/ansible/ansible)
 **Purpose**: IT automation platform  

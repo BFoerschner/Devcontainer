@@ -4,7 +4,6 @@ install_uv_tools() {
   uv tool install 'harlequin[postgres,mysql,s3]' --force
   uv tool install 'httpie' --force
   uv tool install 'jrnl' --force
-  uv tool install 'llm' --force
   uv tool install 'visidata' --force
   uv tool install 'mitmproxy' --force
   uv tool install 'ansible' --force

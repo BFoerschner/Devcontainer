@@ -1,18 +1,10 @@
-name: Docker Release
-
-run-name: Docker Release ${{ github.run_number }}
+name: Docker Build and Push
 
 on:
-  workflow_dispatch:
-    inputs:
-      disable_cache:
-        description: "Disable Docker build cache"
-        required: false
-        default: false
-        type: boolean
   push:
     branches:
       - master
+  workflow_dispatch:
 
 env:
   REGISTRY: docker.io
@@ -21,16 +13,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    outputs:
-      build_number: ${{ steps.semantic.outputs.new_release_version }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -42,24 +27,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
-        id: semantic
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          semantic_version: 23
-          extra_plugins: |
-            @semantic-release/changelog@6.0.3
-            @semantic-release/git@10.0.1
-
       - name: Set lowercase repository owner
         id: repo
         run: echo "owner=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
-        if: steps.semantic.outputs.new_release_published == 'true'
         with:
           context: .
           platforms: linux/amd64
@@ -69,19 +42,5 @@ jobs:
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/${{ env.IMAGE_NAME }}:v${{ steps.semantic.outputs.new_release_version }}
-          cache-from: ${{ github.event.inputs.disable_cache != 'true' && 'type=gha' || '' }}
-          cache-to: ${{ github.event.inputs.disable_cache != 'true' && 'type=gha,mode=max,retention-days=2' || '' }}
-
-      - name: Generate build summary
-        if: steps.semantic.outputs.new_release_published == 'true'
-        run: |
-          echo "## Docker Release Summary" >> $GITHUB_STEP_SUMMARY
-          REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          echo "- **Image**: ${{ env.REGISTRY }}/${REPO_OWNER}/${{ env.IMAGE_NAME }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Tags**: latest, v${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: v${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Docker image built and pushed successfully!" >> $GITHUB_STEP_SUMMARY
+            ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/${{ env.IMAGE_NAME }}:v_${{ github.run_number }}
 

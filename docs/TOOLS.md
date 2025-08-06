@@ -37,6 +37,7 @@ This document provides comprehensive documentation for all tools installed insid
 | [carapace](#carapace)  | Multi-shell completions             | [Docs](https://carapace-sh.github.io/carapace-bin/setup.html)               |
 | [harlequin](#harlequin)  | Terminal SQL IDE          | [Docs](https://harlequin.sh/docs/getting-started/index)         |
 | [visidata](#visidata)      | Terminal spreadsheet      | [Docs](https://visidata.org/docs/)         |
+| [xmlstarlet](#xmlstarlet)  | XML command-line toolkit  | [Docs](http://xmlstar.sourceforge.net/doc/UG/xmlstarlet-ug.html) |
 | [httpie](#httpie)          | User-friendly HTTP client | [Docs](https://httpie.io/docs/cli)         |
 | [mitmproxy](#mitmproxy) | Interactive HTTPS proxy   | [Docs](https://docs.mitmproxy.org/stable/) |
 | [claude-code](#claude-code)                                   | AI-powered code assistant | [Docs]("https://docs.anthropic.com/en/docs/claude-code/overview") |
@@ -494,6 +495,26 @@ vd data.json database.db data.xlsx
 
 # From URL
 vd https://example.com/data.csv
+```
+
+### [xmlstarlet](http://xmlstar.sourceforge.net/)
+**Purpose**: Command-line XML toolkit for parsing, transforming, and querying XML
+
+```bash
+# Select elements with XPath
+xml sel -t -v "//book/title" library.xml
+
+# Format/pretty print XML
+xml fo input.xml
+
+# Edit XML in place
+xml ed -u "//price" -v "29.99" catalog.xml
+
+# Validate XML
+xml val schema.xsd document.xml
+
+# Transform with XSLT
+xml tr stylesheet.xsl input.xml
 ```
 
 ### [httpie](https://github.com/httpie/httpie)

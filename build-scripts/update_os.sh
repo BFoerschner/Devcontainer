@@ -31,6 +31,7 @@ update_os() {
     zsh \
     ncdu \
     vim \
+    xmlstarlet \
     pass \
     pass-otp \
     rsync \

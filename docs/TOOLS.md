@@ -33,6 +33,7 @@ This document provides comprehensive documentation for all tools installed insid
 | [neovim](#neovim)       | Advanced text editor                | [Docs](https://neovim.io/doc/)                            |
 | [tmux](#tmux)             | Terminal multiplexer                | [Docs](https://man7.org/linux/man-pages/man1/tmux.1.html) |
 | [starship](#starship) | Cross-shell prompt                  | [Docs](https://starship.rs/guide/)                        |
+| [stringshift](#stringshift) | String transformation utility | [Docs](https://github.com/DevBullions/stringshift) |
 | [direnv](#direnv)       | Per-directory environment variables | [Docs](https://github.com/direnv/direnv#docs)                          |
 | [carapace](#carapace)  | Multi-shell completions             | [Docs](https://carapace-sh.github.io/carapace-bin/setup.html)               |
 | [harlequin](#harlequin)  | Terminal SQL IDE          | [Docs](https://harlequin.sh/docs/getting-started/index)         |
@@ -442,6 +443,23 @@ Features: Git status, language versions, cloud context, fast performance
 ```bash
 # Configuration
 ~/.config/starship.toml
+```
+
+### [stringshift](https://github.com/DevBullions/stringshift)
+**Purpose**: Advanced text encoding/decoding library with auto-detection and parallel processing
+
+```bash
+# CLI decoding
+stringshift "%22Hello%20World%22"
+
+# Decode Base64
+stringshift "SGVsbG8="
+
+# Encode to Base64
+stringshift -e base64 "Hello World"
+
+# Auto-detect encoding
+stringshift --detect "encoded_text"
 ```
 
 ### [direnv](https://github.com/direnv/direnv)

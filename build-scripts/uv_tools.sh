@@ -8,4 +8,5 @@ install_uv_tools() {
   uv tool install 'mitmproxy' --force
   uv tool install 'ansible' --force
   uv tool install 'ansible-core' --force
+  uv tool install 'stringshift [full]' --force
 }

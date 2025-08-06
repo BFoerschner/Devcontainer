@@ -33,7 +33,7 @@ This document provides comprehensive documentation for all tools installed insid
 | [neovim](#neovim)       | Advanced text editor                | [Docs](https://neovim.io/doc/)                            |
 | [tmux](#tmux)             | Terminal multiplexer                | [Docs](https://man7.org/linux/man-pages/man1/tmux.1.html) |
 | [starship](#starship) | Cross-shell prompt                  | [Docs](https://starship.rs/guide/)                        |
-| [stringshift](#stringshift) | String transformation utility | [Docs](https://github.com/DevBullions/stringshift) |
+| [stringshift](#stringshift) | String transformation utility | [Docs](https://github.com/DevBullions/stringshift#quick-start) |
 | [direnv](#direnv)       | Per-directory environment variables | [Docs](https://github.com/direnv/direnv#docs)                          |
 | [carapace](#carapace)  | Multi-shell completions             | [Docs](https://carapace-sh.github.io/carapace-bin/setup.html)               |
 | [harlequin](#harlequin)  | Terminal SQL IDE          | [Docs](https://harlequin.sh/docs/getting-started/index)         |
@@ -41,7 +41,7 @@ This document provides comprehensive documentation for all tools installed insid
 | [xmlstarlet](#xmlstarlet)  | XML command-line toolkit  | [Docs](http://xmlstar.sourceforge.net/doc/UG/xmlstarlet-ug.html) |
 | [httpie](#httpie)          | User-friendly HTTP client | [Docs](https://httpie.io/docs/cli)         |
 | [mitmproxy](#mitmproxy) | Interactive HTTPS proxy   | [Docs](https://docs.mitmproxy.org/stable/) |
-| [claude-code](#claude-code)                                   | AI-powered code assistant | [Docs]("https://docs.anthropic.com/en/docs/claude-code/overview") |
+| [claude-code](#claude-code)                                   | AI-powered code assistant | [Docs](https://docs.anthropic.com/en/docs/claude-code/overview) |
 | [ansible](#ansible) | IT automation platform    | [Docs](https://docs.ansible.com/)                   |
 | [just](#just) | Command runner      | [Docs](https://just.systems/man/en/)     |
 | [yq](#yq) | YAML/JSON processor | [Docs](https://mikefarah.gitbook.io/yq/) |

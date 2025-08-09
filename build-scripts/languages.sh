@@ -45,6 +45,13 @@ install_lua() {
     fi
   done
 
+  # Create temporary directory for downloads
+  TEMP_DIR=$(mktemp -d)
+  cd "$TEMP_DIR" || {
+    error "Failed to create temporary directory"
+    exit 1
+  }
+
   # Fetch latest Lua version dynamically
   log "Fetching latest Lua version"
   LUA_PAGE=$(curl -s https://www.lua.org/ftp/)
@@ -64,13 +71,15 @@ install_lua() {
 
   log "Extracting Lua"
   tar -zxf "$LUA_TAR"
-  cd "$LUA_FULL"
+  cd "$LUA_FULL" || {
+    error "Failed to enter Lua source directory $LUA_FULL"
+    exit 1
+  }
 
   log "Building Lua"
   make linux
   make INSTALL_TOP="$INSTALL_PREFIX" install
-  cd ..
-  rm -rf "$LUA_FULL" "$LUA_TAR"
+  cd "$TEMP_DIR"
 
   # Get latest LuaRocks version from luarocks.org/releases
   log "Fetching latest LuaRocks version"
@@ -88,14 +97,19 @@ install_lua() {
   log "Downloading LuaRocks $LUAROCKS_VERSION"
   curl -L -O "$LUAROCKS_URL"
   tar -zxf "$LUAROCKS_TAR"
-  cd "$LUAROCKS_FULL" || exit
+  cd "$LUAROCKS_FULL" || {
+    error "Failed to enter LuaRocks source directory $LUAROCKS_FULL"
+    exit 1
+  }
 
   log "Installing LuaRocks"
   ./configure --prefix="$INSTALL_PREFIX" --with-lua="$INSTALL_PREFIX"
   make
   make install
-  cd ..
-  rm -rf "$LUAROCKS_FULL" "$LUAROCKS_TAR"
+
+  # Clean up temporary directory
+  cd /
+  rm -rf "$TEMP_DIR"
 
   log "Verifying Lua installation"
   lua -v || {

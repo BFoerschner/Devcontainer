@@ -43,6 +43,7 @@ update_os() {
   # dependencies
   apt-get install -y \
     expat \
+    sudo \
     locales \
     libxml2-dev \
     libssl-dev \

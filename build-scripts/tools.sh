@@ -74,7 +74,7 @@ install_tmux() {
   cd "$TMUX_SOURCE_DIR" || exit
 
   ./configure && make
-  make install
+  sudo make install
 
   cd "$HOME" || exit
   rm -rf "$TMPDIR"
@@ -139,11 +139,11 @@ install_neovim() {
   tar -xzf "$TMP_DIR/nvim.tar.gz" -C "$TMP_DIR"
 
   log "Moving $TMP_DIR/$ARCH to $INSTALL_DIR"
-  rm -rf "$INSTALL_DIR"
-  mv "$TMP_DIR/$ARCH" "$INSTALL_DIR"
+  sudo rm -rf "$INSTALL_DIR"
+  sudo mv "$TMP_DIR/$ARCH" "$INSTALL_DIR"
 
   log "Linking $INSTALL_DIR/bin/nvim to $HOME/.local/bin/nvim"
-  ln -sf "$INSTALL_DIR/bin/nvim" "$HOME"/.local/bin/nvim
+  sudo ln -sf "$INSTALL_DIR/bin/nvim" "$HOME"/.local/bin/nvim
 
   log "Cleaning up $TMP_DIR"
   rm -rf "$TMP_DIR"
@@ -175,7 +175,7 @@ install_neovim_plugins() {
 }
 
 install_starship() {
-  curl -sS https://starship.rs/install.sh | sh -s -- -y
+  sudo curl -sS https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
 }
 
 install_timewarrior() {

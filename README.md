@@ -31,17 +31,7 @@ I created the tool because I like to be able to have access to my personal devel
 
 #### First run
 ```bash
-docker run \
-  -v $HOME/.ssh/:/root/.ssh \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v $PWD/:/root/host \
-  -e DISPLAY="host.docker.internal:0" \
-  -e LANG="C.UTF-8" \
-  -e LC_ALL="C.UTF-8" \
-  --name devcontainer \
-  -i \
-  -t \
-  bfoerschner/devcontainer:latest
+docker run -v $HOME/.ssh/:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/:/home/dev/host -e DISPLAY="host.docker.internal:0" --name devcontainer -i -t bfoerschner/devcontainer:latest
 ```
 
 

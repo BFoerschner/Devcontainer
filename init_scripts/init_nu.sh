@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# shellcheck source-path=./build-scripts
 set -eo pipefail
 BUILD_SCRIPTS_DIR="/root/build-scripts"
 

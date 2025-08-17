@@ -1,5 +1,4 @@
 #!/usr/bin/env ${1|bash,sh|}
-# shellcheck source-path=./build-scripts
 
 install_chezmoi() {
   log "Installing chezmoi"

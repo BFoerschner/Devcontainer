@@ -12,5 +12,8 @@ setup_environment() {
   export PATH="$HOME/.local/bin:$PATH"
 
   export KUBE_EDITOR=nvim
-  eval "$(fnm env)" 2>/dev/null
+  # if fnm exists, use it
+  if command -v fnm &>/dev/null; then
+    eval "$(fnm env)" 2>/dev/null
+  fi
 }

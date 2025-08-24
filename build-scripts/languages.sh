@@ -126,10 +126,90 @@ install_lua() {
   log "Lua $LUA_VERSION and LuaRocks $LUAROCKS_VERSION installed successfully"
 }
 
+install_java_lts() {
+  # Install dependencies
+  sudo apt-get update
+  sudo apt-get install -y wget apt-transport-https gpg curl jq
+
+  # Get latest LTS version from Adoptium API
+  LTS_VERSION=$(curl -s https://api.adoptium.net/v3/info/available_releases | jq -r '.available_lts_releases[-1]')
+  log "Latest LTS version: $LTS_VERSION"
+
+  # Get codename and check if supported
+  CODENAME=$(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release)
+  if ! curl -sf "https://packages.adoptium.net/artifactory/deb/dists/${CODENAME}/Release" >/dev/null 2>&1; then
+    log "Codename '$CODENAME' not supported, using 'jammy' repository"
+    CODENAME="jammy"
+  fi
+
+  # Add Adoptium repository
+  wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/adoptium.gpg >/dev/null
+  echo "deb https://packages.adoptium.net/artifactory/deb $CODENAME main" | sudo tee /etc/apt/sources.list.d/adoptium.list
+
+  # Install latest LTS JDK
+  sudo apt-get update
+  sudo apt-get install -y temurin-"${LTS_VERSION}"-jdk
+
+  # Set JAVA_HOME
+  java_path=$(update-alternatives --list java | grep temurin | head -n 1)
+  java_home=$(dirname $(dirname $java_path))
+  echo "JAVA_HOME=$java_home" >>/etc/environment
+  echo "export JAVA_HOME=$java_home" >/etc/profile.d/java_home.sh
+  echo "export PATH=\$PATH:\$JAVA_HOME/bin" >>/etc/profile.d/java_home.sh
+
+  log "JDK $LTS_VERSION LTS installed. Run: source /etc/profile.d/java_home.sh"
+}
+
+install_maven() {
+  MAVEN_VERSION=$(curl -s https://api.github.com/repos/apache/maven/releases/latest | grep -Po '"tag_name": "maven-\K[^"]*')
+
+  # Create temp directory for download
+  TEMP_DIR=$(mktemp -d)
+  cd "$TEMP_DIR" || exit 1
+
+  log "Downloading Maven ${MAVEN_VERSION}"
+  wget -q "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" || {
+    error "Failed to download Maven"
+    exit 1
+  }
+
+  log "Extracting Maven to /usr/local"
+  sudo tar -xzf apache-maven-"${MAVEN_VERSION}"-bin.tar.gz -C /usr/local || {
+    error "Failed to extract Maven"
+    exit 1
+  }
+
+  # Verify extraction
+  if [ ! -d "/usr/local/apache-maven-${MAVEN_VERSION}" ]; then
+    error "Maven directory not found after extraction"
+    exit 1
+  fi
+
+  log "Creating Maven symlink"
+  sudo ln -sf /usr/local/apache-maven-"${MAVEN_VERSION}"/bin/mvn /usr/local/bin/mvn || {
+    error "Failed to create Maven symlink"
+    exit 1
+  }
+
+  # Clean up
+  cd /
+  rm -rf "$TEMP_DIR"
+
+  # Verify installation
+  if ! /usr/local/bin/mvn --version >/dev/null 2>&1; then
+    error "Maven installation verification failed"
+    exit 1
+  fi
+
+  log "Maven ${MAVEN_VERSION} installed successfully"
+}
+
 install_languages() {
   install_go
   install_fnm
   install_rust
   install_uv
   install_lua
+  install_java_lts
+  install_maven
 }

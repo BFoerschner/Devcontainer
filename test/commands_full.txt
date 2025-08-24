@@ -78,3 +78,5 @@ docker
 kubectl
 nvim
 lnav
+java
+mvn

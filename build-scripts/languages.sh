@@ -13,10 +13,10 @@ install_go() {
     exit 1
   fi
 
-  URL="https://go.dev/dl/${LATEST_VERSION}.${OS}-${ARCH}.tar.gz"
+  URL="https://storage.googleapis.com/golang/${LATEST_VERSION}.${OS}-${ARCH}.tar.gz"
 
   mkdir -p "$HOME"/.local/share
-  log "downloading and unpacking go to $HOME/.local/share"
+  log "downloading $URL and unpacking go to $HOME/.local/share"
   curl -fsSL "$URL" | tar -xz -C "$HOME"/.local/share/
 }
 

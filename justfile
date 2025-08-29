@@ -10,7 +10,7 @@ build CONTAINER BASE_IMAGE="ubuntu:rolling":
 # Test image for available commands
 test CONTAINER:
     @echo "Testing {{CONTAINER}} image commands..."
-    cargo install --git https://github.com/bfoerschner/ccheck.git
+    cargo install ccheck
     ccheck devcontainer_{{CONTAINER}} \
       -s zsh \
       -f test/commands_{{CONTAINER}}.txt

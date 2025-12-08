@@ -52,6 +52,7 @@ cleanup_caches() {
 }
 
 update_os() {
+  local IS_CONTAINER_INSTALL="${1:-false}"
   mkdir -p "$HOME/.local/bin"
 
   $use_sudo add-apt-repository -y ppa:git-core/ppa # git
@@ -132,12 +133,13 @@ install_neovim_plugins() {
   npm install -g neovim
   npm install -g tree-sitter-cli
 
+  bash -lc "setsid nvim --headless \"+lua require('lazy').sync({wait=true,show=false,concurrency=1})\" +qa & pid=\$!; sleep 10; kill -KILL -\$pid; wait \$pid 2>/dev/null || true"
   nvim --headless \
     -c "lua require('lazy').sync({ wait = true })" \
     -c "lua require('nvim-treesitter')" \
     -c "TSInstall all" \
-    -c "MasonUpdate" \
     -c "MasonToolsInstall" \
+    -c "MasonUpdate" \
     -c "lua vim.defer_fn(function() vim.cmd('qa!') end, 120000)" &
 
   NVIM_PID=$!
@@ -155,9 +157,11 @@ install_neovim_plugins() {
   fi
 }
 
-update_os true
-install_dotfiles
-install_mise_and_tools
-install_tpm
-install_neovim_plugins
-cleanup_caches
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  update_os true
+  install_dotfiles
+  install_mise_and_tools
+  install_tpm
+  install_neovim_plugins
+  cleanup_caches
+fi

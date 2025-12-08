@@ -1,60 +1,272 @@
 # Development Tools Documentation
 
-This document provides comprehensive documentation for all tools installed inside the devcontainer. Tools are compiled from source when feasible. The tools are well-documented and for the most part easy to learn.
+This document provides comprehensive documentation for all tools installed inside the devcontainer. All tools are managed by [mise](https://mise.jdx.dev/) and configured in `.mise.toml`. Tools are compiled from source when feasible. The tools are well-documented and for the most part easy to learn.
 
 ## Quick Reference
 
+### Programming Languages & Runtimes
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [go](#go) | Go programming language | [Docs](https://go.dev/doc/) |
+| [rust](#rust) | Rust programming language | [Docs](https://www.rust-lang.org/learn) |
+| [node](#node) | Node.js JavaScript runtime | [Docs](https://nodejs.org/docs/) |
+| [lua](#lua) | Lua scripting language | [Docs](https://www.lua.org/docs.html) |
+| [java](#java) | Java Development Kit | [Docs](https://docs.oracle.com/en/java/) |
 
-| Tool                                        | Purpose                               | Documentation                                     |
-| ------------------------------------------- | ------------------------------------- | ------------------------------------------------- |
-| [eza](#eza) | Modern `ls` with icons and git status | [Docs](https://eza.rocks/)                        |
-| [fd-find](#fd-find)    | Fast alternative to `find`            | [Docs](https://github.com/sharkdp/fd#how-to-use)       |
-| [fzf](#fzf)      | Fuzzy finder for files and commands   | [Docs](https://github.com/junegunn/fzf#usage)     |
-| [bat](#bat)       | Syntax-highlighted file viewer        | [Docs](https://github.com/sharkdp/bat#how-to-use)      |
-| [mmv](#mmv)   | Rename multiple files with editor     | [Docs](https://github.com/itchyny/mmv#usage) |
-| [termscp](#termscp) | Terminal file transfer client         | [Docs](https://termscp.veeso.dev/)                |
-| [ripgrep](#ripgrep) | Ultra-fast text search            | [Docs](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md)   |
-| [choose](#choose) | Human-friendly `cut` alternative  | [Docs](https://github.com/theryangeary/choose) |
-| [pandoc](#pandoc)          | Universal document converter      | [Docs](https://pandoc.org/)                           |
-| [silicon](#silicon)     | Create beautiful code screenshots | [Docs](https://github.com/Aloxaf/silicon#examples)       |
-| [procs](#procs)   | Modern `ps` replacement        | [Docs](https://github.com/dalance/procs#usage) |
-| [du-dust](#du-dust) | Better disk usage analyzer     | [Docs](https://github.com/bootandy/dust#usage) |
-| [duf](#duf)        | Modern `df` with better output | [Docs](https://github.com/muesli/duf#usage)   |
-| [lazygit](#lazygit) | Terminal UI for Git    | [Docs](https://github.com/jesseduffield/lazygit#usage) |
-| [git-delta](#git-delta)    | Better git diff viewer | [Docs](https://dandavison.github.io/delta/)            |
-| [gh](#gh)                    | GitHub CLI             | [Docs](https://cli.github.com/manual/)                 |
-| [difftastic](#difftastic) | Structural diff tool   | [Docs](https://difftastic.wilfred.me.uk/)              |
-| [lazydocker](#lazydocker) | Terminal UI for Docker      | [Docs](https://github.com/jesseduffield/lazydocker#usage) |
-| [dive](#dive)                 | Analyze Docker image layers | [Docs](https://github.com/wagoodman/dive)          |
-| [docker](#docker)                    | Container runtime           | [Docs](https://docs.docker.com/reference/cli/docker/)                          |
-| [kubectl](#kubectl)          | Kubernetes CLI              | [Docs](https://kubernetes.io/docs/reference/kubectl/)     |
-| [k9s](#k9s)                   | Kubernetes CLI dashboard    | [Docs](https://k9scli.io/)                                |
-| [terraform](#terraform)       | Infrastructure as Code      | [Docs](https://developer.hashicorp.com/terraform/docs)    |
-| [neovim](#neovim)       | Advanced text editor                | [Docs](https://neovim.io/doc/)                            |
-| [tmux](#tmux)             | Terminal multiplexer                | [Docs](https://man7.org/linux/man-pages/man1/tmux.1.html) |
-| [starship](#starship) | Cross-shell prompt                  | [Docs](https://starship.rs/guide/)                        |
-| [stringshift](#stringshift) | String transformation utility | [Docs](https://github.com/DevBullions/stringshift#quick-start) |
-| [direnv](#direnv)       | Per-directory environment variables | [Docs](https://github.com/direnv/direnv#docs)                          |
-| [carapace](#carapace)  | Multi-shell completions             | [Docs](https://carapace-sh.github.io/carapace-bin/setup.html)               |
-| [harlequin](#harlequin)  | Terminal SQL IDE          | [Docs](https://harlequin.sh/docs/getting-started/index)         |
-| [visidata](#visidata)      | Terminal spreadsheet      | [Docs](https://visidata.org/docs/)         |
-| [xmlstarlet](#xmlstarlet)  | XML command-line toolkit  | [Docs](http://xmlstar.sourceforge.net/doc/UG/xmlstarlet-ug.html) |
-| [httpie](#httpie)          | User-friendly HTTP client | [Docs](https://httpie.io/docs/cli)         |
-| [mitmproxy](#mitmproxy) | Interactive HTTPS proxy   | [Docs](https://docs.mitmproxy.org/stable/) |
-| [claude-code](#claude-code)                                   | AI-powered code assistant | [Docs](https://docs.anthropic.com/en/docs/claude-code/overview) |
-| [ansible](#ansible) | IT automation platform    | [Docs](https://docs.ansible.com/)                   |
-| [just](#just) | Command runner      | [Docs](https://just.systems/man/en/)     |
+### Build Tools & Package Managers
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [uv](#uv) | Ultra-fast Python package installer | [Docs](https://github.com/astral-sh/uv) |
+| [maven](#maven) | Java build automation tool | [Docs](https://maven.apache.org/guides/) |
+| [pipx](#pipx) | Install Python apps in isolated environments | [Docs](https://pipx.pypa.io/) |
+| [just](#just) | Command runner | [Docs](https://just.systems/man/en/) |
+
+### File & Text Tools
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [eza](#eza) | Modern `ls` with icons and git status | [Docs](https://eza.rocks/) |
+| [fd](#fd) | Fast alternative to `find` | [Docs](https://github.com/sharkdp/fd#how-to-use) |
+| [fzf](#fzf) | Fuzzy finder for files and commands | [Docs](https://github.com/junegunn/fzf#usage) |
+| [bat](#bat) | Syntax-highlighted file viewer | [Docs](https://github.com/sharkdp/bat#how-to-use) |
+| [ripgrep](#ripgrep) | Ultra-fast text search | [Docs](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md) |
+| [choose](#choose) | Human-friendly `cut` alternative | [Docs](https://github.com/theryangeary/choose) |
+| [pandoc](#pandoc) | Universal document converter | [Docs](https://pandoc.org/) |
+| [termscp](#termscp) | Terminal file transfer client | [Docs](https://termscp.veeso.dev/) |
+
+### System Monitoring & Process Tools
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [procs](#procs) | Modern `ps` replacement | [Docs](https://github.com/dalance/procs#usage) |
+| [du-dust](#du-dust) | Better disk usage analyzer | [Docs](https://github.com/bootandy/dust#usage) |
+| [duf](#duf) | Modern `df` with better output | [Docs](https://github.com/muesli/duf#usage) |
+
+### Git Tools
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [lazygit](#lazygit) | Terminal UI for Git | [Docs](https://github.com/jesseduffield/lazygit#usage) |
+| [delta](#delta) | Better git diff viewer | [Docs](https://dandavison.github.io/delta/) |
+| [gh](#gh) | GitHub CLI | [Docs](https://cli.github.com/manual/) |
+| [difftastic](#difftastic) | Structural diff tool | [Docs](https://difftastic.wilfred.me.uk/) |
+
+### Container & Infrastructure Tools
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [lazydocker](#lazydocker) | Terminal UI for Docker | [Docs](https://github.com/jesseduffield/lazydocker#usage) |
+| [dive](#dive) | Analyze Docker image layers | [Docs](https://github.com/wagoodman/dive) |
+| [docker-cli](#docker-cli) | Docker command-line interface | [Docs](https://docs.docker.com/reference/cli/docker/) |
+| [docker-compose](#docker-compose) | Multi-container Docker applications | [Docs](https://docs.docker.com/compose/) |
+| [kubectl](#kubectl) | Kubernetes CLI | [Docs](https://kubernetes.io/docs/reference/kubectl/) |
+| [k9s](#k9s) | Kubernetes CLI dashboard | [Docs](https://k9scli.io/) |
+| [terraform](#terraform) | Infrastructure as Code | [Docs](https://developer.hashicorp.com/terraform/docs) |
+
+### Development Environment
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [neovim](#neovim) | Advanced text editor | [Docs](https://neovim.io/doc/) |
+| [vim](#vim) | Classic text editor | [Docs](https://www.vim.org/docs.php) |
+| [tmux](#tmux) | Terminal multiplexer | [Docs](https://man7.org/linux/man-pages/man1/tmux.1.html) |
+| [starship](#starship) | Cross-shell prompt | [Docs](https://starship.rs/guide/) |
+| [direnv](#direnv) | Per-directory environment variables | [Docs](https://github.com/direnv/direnv#docs) |
+| [zoxide](#zoxide) | Smart directory jumper | [Docs](https://github.com/ajeetdsouza/zoxide#configuration) |
+
+### Data & Configuration Tools
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
 | [yq](#yq) | YAML/JSON processor | [Docs](https://mikefarah.gitbook.io/yq/) |
-| [jrnl](#jrnl) | Command-line journaling | [Docs](https://jrnl.sh/en/latest/)              |
-| [nap](#nap) | Code snippet manager    | [Docs](https://github.com/maaslalani/nap) |
-| [nu](#nu) | Modern shell with structured data | [Docs](https://www.nushell.sh/book/)          |
-| [zoxide](#zoxide) | Smart directory jumper          | [Docs](https://github.com/ajeetdsouza/zoxide#configuration) |
-| [tea](#tea)   | Gitea CLI client                  | [Docs](https://docs.gitea.com/usage/cli/tea/) |
-| [timewarrior](#timewarrior) | Time tracking tool      | [Docs](https://timewarrior.net/docs/)         |
+| [jq](#jq) | JSON processor | [Docs](https://jqlang.github.io/jq/manual/) |
+| [sops](#sops) | Encrypted secrets management | [Docs](https://github.com/getsops/sops) |
+| [harlequin](#harlequin) | Terminal SQL IDE | [Docs](https://harlequin.sh/docs/getting-started/index) |
+| [visidata](#visidata) | Terminal spreadsheet | [Docs](https://visidata.org/docs/) |
+
+### Network & API Tools
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [httpie](#httpie) | User-friendly HTTP client | [Docs](https://httpie.io/docs/cli) |
+| [mitmproxy](#mitmproxy) | Interactive HTTPS proxy | [Docs](https://docs.mitmproxy.org/stable/) |
+
+### DevOps & Automation
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [ansible](#ansible) | IT automation platform | [Docs](https://docs.ansible.com/) |
+| [claude-code](#claude-code) | AI-powered code assistant | [Docs](https://docs.anthropic.com/en/docs/claude-code/overview) |
+
+### Utilities
+| Tool | Purpose | Documentation |
+| ---- | ------- | ------------- |
+| [silicon](#silicon) | Create beautiful code screenshots | [Docs](https://github.com/Aloxaf/silicon#examples) |
+| [stringshift](#stringshift) | String transformation utility | [Docs](https://github.com/DevBullions/stringshift#quick-start) |
+| [jrnl](#jrnl) | Command-line journaling | [Docs](https://jrnl.sh/en/latest/) |
+| [nu](#nu) | Modern shell with structured data | [Docs](https://www.nushell.sh/book/) |
 | [lnav](#lnav) | Log file navigator and analyzer | [Docs](https://docs.lnav.org/) |
 
 
 ---
+
+## Programming Languages & Runtimes
+
+### [go](https://go.dev/)
+**Purpose**: Go programming language for building fast, reliable software
+
+```bash
+# Check version
+go version
+
+# Initialize module
+go mod init myproject
+
+# Build binary
+go build
+
+# Run program
+go run main.go
+
+# Install dependencies
+go mod tidy
+
+# Run tests
+go test ./...
+```
+
+### [rust](https://www.rust-lang.org/)
+**Purpose**: Systems programming language focused on safety and performance
+
+```bash
+# Check version
+rustc --version
+cargo --version
+
+# Create new project
+cargo new myproject
+
+# Build project
+cargo build
+
+# Run project
+cargo run
+
+# Run tests
+cargo test
+
+# Build optimized release
+cargo build --release
+```
+
+### [node](https://nodejs.org/)
+**Purpose**: JavaScript runtime built on Chrome's V8 engine
+
+```bash
+# Check version
+node --version
+npm --version
+
+# Initialize project
+npm init
+
+# Install dependencies
+npm install
+
+# Run script
+npm run start
+
+# Install package
+npm install package-name
+```
+
+### [lua](https://www.lua.org/)
+**Purpose**: Lightweight, embeddable scripting language
+
+```bash
+# Check version
+lua -v
+
+# Run script
+lua script.lua
+
+# Interactive REPL
+lua
+```
+
+### [java](https://www.oracle.com/java/)
+**Purpose**: Java Development Kit for building Java applications
+
+```bash
+# Check version
+java -version
+javac -version
+
+# Compile Java file
+javac MyProgram.java
+
+# Run compiled class
+java MyProgram
+
+# Run JAR file
+java -jar myapp.jar
+```
+
+## Build Tools & Package Managers
+
+### [uv](https://github.com/astral-sh/uv)
+**Purpose**: Ultra-fast Python package installer and resolver
+
+```bash
+# Install package
+uv pip install requests
+
+# Install from requirements
+uv pip install -r requirements.txt
+
+# Create virtual environment
+uv venv
+
+# Sync dependencies
+uv pip sync requirements.txt
+```
+
+### [maven](https://maven.apache.org/)
+**Purpose**: Build automation tool for Java projects
+
+```bash
+# Create new project
+mvn archetype:generate
+
+# Compile project
+mvn compile
+
+# Run tests
+mvn test
+
+# Package application
+mvn package
+
+# Clean build artifacts
+mvn clean
+
+# Install to local repository
+mvn install
+```
+
+### [pipx](https://pipx.pypa.io/)
+**Purpose**: Install and run Python applications in isolated environments
+
+```bash
+# Install application
+pipx install package-name
+
+# List installed apps
+pipx list
+
+# Upgrade application
+pipx upgrade package-name
+
+# Uninstall application
+pipx uninstall package-name
+
+# Run without installing
+pipx run package-name
+```
+
+## File & Text Tools
 
 ### [eza](https://github.com/eza-community/eza)
 **Purpose**: Modern replacement for `ls` with icons and git integration  
@@ -75,7 +287,7 @@ eza -l --sort=size
 eza -l --sort=modified
 ```
 
-### [fd-find](https://github.com/sharkdp/fd)
+### [fd](https://github.com/sharkdp/fd)
 **Purpose**: Simple, fast alternative to `find`  
 
 
@@ -124,21 +336,6 @@ bat -n file.js
 
 # Use as pager
 bat --paging=always large-file.log
-```
-
-### [mmv](https://github.com/itchyny/mmv)
-**Purpose**: Rename multiple files with your editor  
-
-
-```bash
-# Rename files matching pattern
-mmv '*.txt'
-
-# Use specific editor
-mmv -e vim '*.md'
-
-# Dry run
-mmv -n '*.py'
 ```
 
 ### [termscp](https://github.com/veeso/termscp)
@@ -277,7 +474,7 @@ lazygit
 
 **Key shortcuts**: `space` (stage), `c` (commit), `P` (push), `p` (pull), `b` (branch)
 
-### [git-delta](https://github.com/dandavison/delta)
+### [delta](https://github.com/dandavison/delta)
 **Purpose**: Syntax-highlighted git diff viewer  
 
 
@@ -337,9 +534,8 @@ dive myimage:tag
 dive --ci myimage:tag
 ```
 
-### [docker](https://github.com/docker/cli)
-**Purpose**: Container runtime  
-
+### [docker-cli](https://github.com/docker/cli)
+**Purpose**: Docker command-line interface for container management
 
 ```bash
 # Run container
@@ -350,6 +546,44 @@ docker build -t myapp .
 
 # List containers
 docker ps -a
+
+# Stop container
+docker stop container-id
+
+# Remove container
+docker rm container-id
+
+# Pull image
+docker pull nginx:latest
+
+# View logs
+docker logs container-id
+```
+
+### [docker-compose](https://docs.docker.com/compose/)
+**Purpose**: Tool for defining and running multi-container Docker applications
+
+```bash
+# Start services
+docker-compose up
+
+# Start in detached mode
+docker-compose up -d
+
+# Stop services
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Rebuild services
+docker-compose build
+
+# List running services
+docker-compose ps
+
+# Execute command in service
+docker-compose exec service-name bash
 ```
 
 ### [kubectl](https://github.com/kubernetes/kubectl)
@@ -399,7 +633,7 @@ terraform apply
 ```
 
 ### [neovim](https://github.com/neovim/neovim)
-**Purpose**: Extensible text editor  
+**Purpose**: Extensible text editor
 
 
 Pre-configured with:
@@ -417,6 +651,29 @@ nvim file.txt
 :Lazy install
 :Mason
 ```
+
+### [vim](https://www.vim.org/)
+**Purpose**: Classic highly configurable text editor
+
+```bash
+# Start Vim
+vim
+vim file.txt
+
+# Open multiple files
+vim file1.txt file2.txt
+
+# Open file at specific line
+vim +42 file.txt
+
+# Read-only mode
+vim -R file.txt
+
+# Diff mode
+vim -d file1.txt file2.txt
+```
+
+**Basic commands**: `i` (insert), `:w` (save), `:q` (quit), `:wq` (save & quit), `/search` (search), `dd` (delete line)
 
 ### [tmux](https://github.com/tmux/tmux)
 **Purpose**: Terminal multiplexer  
@@ -473,19 +730,6 @@ direnv allow
 echo 'export API_KEY="secret"' > .envrc
 ```
 
-### [carapace](https://github.com/carapace-sh/carapace-bin)
-**Purpose**: Multi-shell completion generator  
-
-
-```bash
-# Generate completions
-carapace docker
-carapace git
-
-# List supported commands
-carapace --list
-```
-
 ### [harlequin](https://github.com/tconbeer/harlequin)
 **Purpose**: Terminal-based SQL IDE  
 
@@ -513,26 +757,6 @@ vd data.json database.db data.xlsx
 
 # From URL
 vd https://example.com/data.csv
-```
-
-### [xmlstarlet](http://xmlstar.sourceforge.net/)
-**Purpose**: Command-line XML toolkit for parsing, transforming, and querying XML
-
-```bash
-# Select elements with XPath
-xml sel -t -v "//book/title" library.xml
-
-# Format/pretty print XML
-xml fo input.xml
-
-# Edit XML in place
-xml ed -u "//price" -v "29.99" catalog.xml
-
-# Validate XML
-xml val schema.xsd document.xml
-
-# Transform with XSLT
-xml tr stylesheet.xsl input.xml
 ```
 
 ### [httpie](https://github.com/httpie/httpie)
@@ -609,7 +833,7 @@ just build
 ```
 
 ### [yq](https://github.com/mikefarah/yq)
-**Purpose**: YAML/JSON/XML processor  
+**Purpose**: YAML/JSON/XML processor
 
 
 ```bash
@@ -621,6 +845,47 @@ yq '.key = "new-value"' -i file.yaml
 
 # Convert formats
 yq -o json file.yaml
+```
+
+### [jq](https://jqlang.github.io/jq/)
+**Purpose**: Lightweight and flexible command-line JSON processor
+
+```bash
+# Pretty print JSON
+cat file.json | jq '.'
+
+# Extract field
+cat file.json | jq '.fieldName'
+
+# Filter arrays
+cat file.json | jq '.[] | select(.age > 30)'
+
+# Transform data
+cat file.json | jq '.items | map(.name)'
+
+# Output raw strings
+cat file.json | jq -r '.message'
+```
+
+### [sops](https://github.com/getsops/sops)
+**Purpose**: Encrypted file editor for managing secrets
+
+```bash
+# Encrypt file
+sops -e secrets.yaml > secrets.enc.yaml
+
+# Decrypt and edit
+sops secrets.enc.yaml
+
+# Decrypt to stdout
+sops -d secrets.enc.yaml
+
+# Encrypt specific keys only
+sops -e --encrypted-regex '^(password|apikey)$' config.yaml
+
+# Use with age
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+sops -e file.yaml
 ```
 
 ### [jrnl](https://github.com/jrnl-org/jrnl)
@@ -638,21 +903,6 @@ jrnl -n 10
 jrnl @work --from "last month"
 ```
 
-### [nap](https://github.com/maaslalani/nap)
-**Purpose**: Code snippet manager  
-
-
-```bash
-# Launch interface
-nap
-
-# Add snippet from file
-nap add myfile.go
-
-# Search snippets
-nap search "function"
-```
-
 ### [nu](https://github.com/nushell/nushell)
 **Purpose**: Modern shell with structured data  
 
@@ -665,20 +915,6 @@ ls | where size > 1KB | sort-by modified
 
 # JSON operations
 open data.json | get items | length
-```
-
-### [tea](https://gitea.com/gitea/tea)
-**Purpose**: Gitea CLI client  
-
-```bash
-# Login
-tea login add
-
-# List repositories
-tea repos list
-
-# Create issue
-tea issues create --title "Bug" --body "Description"
 ```
 
 ### [zoxide](https://github.com/ajeetdsouza/zoxide)
@@ -706,29 +942,6 @@ zoxide edit
 ```
 
 **Setup**: Add `eval "$(zoxide init bash)"` to your shell config for the `z` command.
-
-### [timewarrior](https://github.com/GothenburgBitFactory/timewarrior)
-**Purpose**: Command-line time tracking tool  
-
-```bash
-# Start tracking
-timew start "Project work"
-
-# Stop current tracking
-timew stop
-
-# Track with tags
-timew start project:website coding
-
-# Show summary
-timew summary
-
-# Show today's time
-timew day
-
-# Track for specific duration
-timew track 9am - 5pm "Full day work"
-```
 
 ### [lnav](https://github.com/tstack/lnav)
 **Purpose**: Log file navigator and analyzer with automatic format detection

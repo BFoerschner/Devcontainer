@@ -9,7 +9,7 @@
 
 This repository contains the source for the image ```bfoerschner/devcontainer```. It is a terminal-based development environment that is fully configured and ready to use. The image is based on [Ubuntu:rolling](https://hub.docker.com/_/ubuntu) and includes the tools you need for a modern terminal-based development environment.
 
-This image contains a set of curated set of applications and tools that are meant to improve your productivity and protect your sanity when working on projects. The dotfiles for this container are located at [bfoerschner/dotfiles](https://github.com/bfoerschner/dotfiles). They play a huge role in how this container feels.
+This image contains a curated set of applications and tools that are meant to improve your productivity and protect your sanity when working on projects. All tools are managed by [mise](https://mise.jdx.dev/) (see `.mise.toml` for the complete list). The dotfiles for this container are located at [bfoerschner/dotfiles](https://github.com/bfoerschner/dotfiles). They play a huge role in how this container feels.
 
 I created the tool because I like to be able to have access to my personal development environment everywhere I can run docker. This is my take on how to solve the problem of having your own development environment with you at all times. As long as I have access to Linux containers via Docker I can be happy.
 
@@ -26,6 +26,23 @@ I created the tool because I like to be able to have access to my personal devel
 [TOOLS](/docs/TOOLS.md) page for information about where to go for the specific tools for support.
 - **Compatibility**: The tools might or might not be compatible with other Linux distributions or other Dockerimages
 - **Size**: The image is not optimized for size. It is optimized for speed and feature-completeness.
+
+## Installed Tools
+
+All development tools are managed via [mise](https://mise.jdx.dev/) and configured in `.mise.toml`. The devcontainer includes:
+
+- **Languages & Runtimes**: Go, Rust, Node.js, Java, Lua
+- **Build Tools**: Maven, UV (Python), pipx, Just
+- **File & Text Tools**: eza, fd, fzf, bat, ripgrep, pandoc
+- **Git Tools**: lazygit, delta, gh, difftastic
+- **Container Tools**: Docker CLI, docker-compose, lazydocker, dive
+- **Infrastructure**: kubectl, k9s, terraform, ansible
+- **Editors**: Neovim, Vim, tmux
+- **Data Tools**: yq, jq, sops, harlequin, visidata
+- **Network Tools**: httpie, mitmproxy
+- **Utilities**: starship, direnv, zoxide, silicon, lnav, nu (Nushell), and more
+
+For detailed documentation on each tool, see [TOOLS.md](/docs/TOOLS.md).
 
 ## Usage
 

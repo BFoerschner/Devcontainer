@@ -143,6 +143,11 @@ install_neovim_plugins() {
   BLINK_PID=$!
   timeout 60 tail --pid=$BLINK_PID -f /dev/null || true
 
+  # download supermaven pre-built binary so sm-agent is ready on first start
+  nvim --headless "+lua vim.opt.rtp:append(vim.fn.stdpath('data') .. '/lazy/supermaven-nvim'); require('supermaven-nvim.binary.binary_fetcher'):fetch_binary(); vim.cmd('qa!')" &
+  SUPERMAVEN_PID=$!
+  timeout 60 tail --pid=$SUPERMAVEN_PID -f /dev/null || true
+
   nvim --headless \
     -c "lua require('lazy').sync({ wait = true })" \
     -c "lua require('nvim-treesitter')" \

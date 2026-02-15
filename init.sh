@@ -19,28 +19,17 @@ get_arch() {
   esac
 }
 
-determine_sudo() {
-  if [ "$EUID" -ne 0 ]; then
-    echo "sudo"
-  else
-    echo ""
-  fi
-}
-readonly use_sudo="$(determine_sudo)"
-
-setup_environment() {
-  export PATH="/usr/bin/:$PATH"
-  export PATH="/usr/local/bin/:$PATH"
-  export PATH="$HOME/.local/bin:$PATH"
-  export KUBE_EDITOR=nvim
-}
+use_sudo=""
+if [ "$EUID" -ne 0 ]; then
+  use_sudo="sudo"
+fi
+readonly use_sudo
 
 # =============================================================================
 # OS setup
 # =============================================================================
 
 update_os() {
-  local IS_CONTAINER_INSTALL="${1:-false}"
   mkdir -p "$HOME/.local/bin"
 
   $use_sudo add-apt-repository -y ppa:git-core/ppa # git
@@ -95,10 +84,8 @@ update_os() {
     python3-pip \
     python3-venv
 
-  if $IS_CONTAINER_INSTALL; then
-    $use_sudo apt-get install -y unminimize
-    yes | unminimize 2>/dev/null || true
-  fi
+  $use_sudo apt-get install -y unminimize
+  yes | unminimize 2>/dev/null || true
 
   echo "LC_ALL=en_US.UTF-8" | $use_sudo tee -a /etc/environment >/dev/null
   echo "en_US.UTF-8 UTF-8" | $use_sudo tee -a /etc/locale.gen >/dev/null
@@ -323,7 +310,7 @@ cleanup_caches() {
 # =============================================================================
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  update_os true
+  update_os
   install_dotfiles
   install_mise_and_tools
   install_tpm

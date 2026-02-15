@@ -20,7 +20,9 @@ install_dotfiles() {
 
 install_mise_and_tools() {
   curl https://mise.run/bash | sh
-  mise install
+  mise install || true
+  MISE_AQUA_GITHUB_ATTESTATIONS=false mise install gh
+
   eval "$(mise activate bash)"
 }
 
@@ -97,6 +99,7 @@ update_os() {
     g++ \
     libsmbclient \
     libsmbclient-dev \
+    libonig-dev \
     libclang-dev \
     build-essential \
     pkg-config \
@@ -134,6 +137,12 @@ install_neovim_plugins() {
   npm install -g tree-sitter-cli
 
   bash -lc "setsid nvim --headless \"+lua require('lazy').sync({wait=true,show=false,concurrency=1})\" +qa & pid=\$!; sleep 10; kill -KILL -\$pid; wait \$pid 2>/dev/null || true"
+
+  # download blink.cmp pre-built binary (async download doesn't complete in headless mode)
+  nvim --headless "+lua require('blink.cmp.fuzzy.download').ensure_downloaded(function() vim.cmd('qa!') end)" &
+  BLINK_PID=$!
+  timeout 60 tail --pid=$BLINK_PID -f /dev/null || true
+
   nvim --headless \
     -c "lua require('lazy').sync({ wait = true })" \
     -c "lua require('nvim-treesitter')" \

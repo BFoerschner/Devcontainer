@@ -25,12 +25,23 @@ if [ "$EUID" -ne 0 ]; then
 fi
 readonly use_sudo
 
+readonly DOTFILES_REPO="BFoerschner"
+readonly LAZY_BOOTSTRAP_TIMEOUT=10
+readonly NVIM_SYNC_TIMEOUT_MS=600000
+readonly NVIM_SYNC_TIMEOUT_S=600
+
+# Activates mise in the current shell. Needed after mise install to make shims
+# available, and again in install_neovim_plugins which runs in a subcontext.
+activate_mise() {
+  eval "$(mise activate bash)"
+}
+
 # =============================================================================
 # OS setup
 # =============================================================================
 
 update_os() {
-  mkdir -p "$HOME/.local/bin"
+  log "Updating OS packages"
 
   $use_sudo add-apt-repository -y ppa:git-core/ppa # git
   $use_sudo apt-get update
@@ -86,7 +97,10 @@ update_os() {
 
   $use_sudo apt-get install -y unminimize
   yes | unminimize 2>/dev/null || true
+}
 
+configure_locale() {
+  log "Configuring locale"
   echo "LC_ALL=en_US.UTF-8" | $use_sudo tee -a /etc/environment >/dev/null
   echo "en_US.UTF-8 UTF-8" | $use_sudo tee -a /etc/locale.gen >/dev/null
   echo "LANG=en_US.UTF-8" | $use_sudo tee /etc/locale.conf >/dev/null
@@ -99,7 +113,11 @@ update_os() {
 
 install_dotfiles() {
   log "Installing dotfiles"
-  sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME"/.local/bin init --apply "BFoerschner"
+  local installer
+  installer=$(mktemp)
+  curl -fsSL https://get.chezmoi.io -o "$installer"
+  sh "$installer" -b "$HOME/.local/bin" init --apply "$DOTFILES_REPO"
+  rm -f "$installer"
 }
 
 # =============================================================================
@@ -107,11 +125,17 @@ install_dotfiles() {
 # =============================================================================
 
 install_mise_and_tools() {
-  curl https://mise.run/bash | sh
+  log "Installing mise and tools"
+  local installer
+  installer=$(mktemp)
+  curl -fsSL https://mise.run -o "$installer"
+  bash "$installer"
+  rm -f "$installer"
+
   mise install || true
   MISE_AQUA_GITHUB_ATTESTATIONS=false mise install gh
 
-  eval "$(mise activate bash)"
+  activate_mise
 }
 
 # =============================================================================
@@ -119,12 +143,14 @@ install_mise_and_tools() {
 # =============================================================================
 
 install_tpm() {
+  log "Installing tmux plugin manager"
   if [ -d ~/.tmux/plugins/tpm ]; then
     (cd ~/.tmux/plugins/tpm && git pull)
   else
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   fi
 
+  # tmux source fails during build (no server running) — this is expected
   tmux source ~/.tmux.conf 2>/dev/null || true
   "$HOME"/.tmux/plugins/tpm/scripts/install_plugins.sh
 }
@@ -133,7 +159,7 @@ install_tpm() {
 # Neovim
 # =============================================================================
 
-install_neovim_providers() {
+install_neovim_dependencies() {
   log "Installing python provider"
   uv python install
   log "Creating neovim venv"
@@ -147,14 +173,14 @@ install_neovim_providers() {
 
 sync_neovim_plugins() {
   # Initial clone pass: start a headless lazy.sync in a new session, let it run
-  # for 10 seconds to bootstrap plugin directories, then kill it. This avoids
-  # hangs from plugins that expect a TTY on first install.
+  # for LAZY_BOOTSTRAP_TIMEOUT seconds to bootstrap plugin directories, then
+  # kill it. This avoids hangs from plugins that expect a TTY on first install.
   bash -lc "
     setsid nvim --headless \
-      \"+lua require('lazy').sync({wait=true,show=false,concurrency=1})\" \
+      \"+lua require('lazy').sync({wait=true})\" \
       +qa &
     pid=\$!
-    sleep 10
+    sleep $LAZY_BOOTSTRAP_TIMEOUT
     kill -KILL -\$pid
     wait \$pid 2>/dev/null || true
   "
@@ -166,12 +192,12 @@ sync_neovim_plugins() {
     -c "TSInstall all" \
     -c "MasonToolsInstall" \
     -c "MasonUpdate" \
-    -c "lua vim.defer_fn(function() vim.cmd('qa!') end, 120000)" &
+    -c "lua vim.defer_fn(function() vim.cmd('qa!') end, $NVIM_SYNC_TIMEOUT_MS)" &
 
   local nvim_pid=$!
 
-  # Wait for process with timeout
-  timeout 120 tail --pid=$nvim_pid -f /dev/null || true
+  # Wait for nvim to finish (it self-quits via defer_fn after NVIM_SYNC_TIMEOUT_MS)
+  wait $nvim_pid 2>/dev/null || true
 
   if [ -d "$HOME/.local/share/nvim/mason/bin" ]; then
     log "Mason tools installed successfully:"
@@ -224,7 +250,21 @@ download_blink_cmp_binary() {
     return 0
   fi
 
-  curl -fsSL -o "$target_dir/${lib_filename}.sha256" "${url}.sha256" || true
+  if curl -fsSL -o "$target_dir/${lib_filename}.sha256" "${url}.sha256"; then
+    local expected actual
+    expected=$(awk '{print $1}' "$target_dir/${lib_filename}.sha256")
+    actual=$(sha256sum "$target_dir/${lib_filename}" | awk '{print $1}')
+    if [ "$expected" = "$actual" ]; then
+      log "blink.cmp: sha256 checksum verified"
+    else
+      log "blink.cmp: sha256 checksum mismatch!"
+      rm -f "$target_dir/${lib_filename}"
+      return 1
+    fi
+  else
+    log "blink.cmp: sha256 checksum not available, skipping verification"
+  fi
+
   printf '%s' "$tag" >"$target_dir/version"
 }
 
@@ -256,6 +296,11 @@ download_supermaven_binary() {
     return 0
   fi
 
+  if [[ "$download_url" != https://supermaven.com/* && "$download_url" != https://supermaven-public.s3.amazonaws.com/* ]]; then
+    log "supermaven: unexpected download domain, aborting"
+    return 0
+  fi
+
   log "supermaven: downloading sm-agent"
   mkdir -p "$binary_dir"
 
@@ -269,9 +314,9 @@ download_supermaven_binary() {
 }
 
 install_neovim_plugins() {
-  eval "$(mise activate bash)"
+  activate_mise
 
-  install_neovim_providers
+  install_neovim_dependencies
   sync_neovim_plugins
 
   # Download plugin binaries directly with curl (after lazy.sync so plugins are at final versions)
@@ -284,6 +329,7 @@ install_neovim_plugins() {
 # =============================================================================
 
 cleanup_caches() {
+  log "Cleaning up caches"
   go clean -cache
   go clean -modcache
   uv cache clean
@@ -299,8 +345,8 @@ cleanup_caches() {
   # clean logs, temp files and caches
   $use_sudo find /var/log -type f -delete || true
   $use_sudo find /var/log -type d -empty -delete || true
-  find /root/.cache -type f -delete 2>/dev/null || $use_sudo find /root/.cache -type f -delete || true
-  find /root/.cache -type d -empty -delete 2>/dev/null || $use_sudo find /root/.cache -type d -empty -delete || true
+  $use_sudo find /root/.cache -type f -delete 2>/dev/null || true
+  $use_sudo find /root/.cache -type d -empty -delete 2>/dev/null || true
 
   mise cache clear
 }
@@ -310,7 +356,9 @@ cleanup_caches() {
 # =============================================================================
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  mkdir -p "$HOME/.local/bin"
   update_os
+  configure_locale
   install_dotfiles
   install_mise_and_tools
   install_tpm

@@ -1,7 +1,15 @@
-FROM ubuntu:rolling
+# Development container based on Ubuntu 24.04
+# Build: docker build -t devcontainer .
+# Run:   docker run --rm -it devcontainer
 
-ARG MISE_GITHUB_TOKEN
-ENV PATH="~/.local/bin:~/.local/share/mise/shims:${PATH}"
+FROM ubuntu:24.04
+
+ARG USERNAME=dev
+ARG USER_UID=1001
+ARG USER_HOME=/home/dev
+ARG USER_SHELL=/bin/bash
+
+ENV PATH="${USER_HOME}/.local/bin:${USER_HOME}/.local/share/mise/shims:${PATH}"
 SHELL ["/bin/bash", "-c"]
 COPY init.sh /build/init.sh
 
@@ -18,15 +26,13 @@ RUN \
   && rm -rf /var/lib/apt/lists/*
 
 RUN \
-  useradd -m -s /bin/bash -u 1001 dev && \
-  usermod -aG sudo dev && \
-  echo "dev ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+  useradd -m -s ${USER_SHELL} -u ${USER_UID} ${USERNAME} && \
+  usermod -aG sudo ${USERNAME} && \
+  echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+  chsh -s ${USER_SHELL} root && \
+  chsh -s .local/share/mise/shims/nu ${USERNAME}
 
-RUN \
-  chsh -s /bin/bash root && \
-  chsh -s .local/share/mise/shims/nu dev
-
-USER dev
-RUN MISE_GITHUB_TOKEN=${MISE_GITHUB_TOKEN} /build/init.sh
-WORKDIR /home/dev
-ENTRYPOINT tmux -u new-session -A -s main
+USER ${USERNAME}
+WORKDIR ${USER_HOME}
+RUN /build/init.sh
+ENTRYPOINT ["tmux", "-u", "new-session", "-A", "-s", "main"]

@@ -36,9 +36,6 @@ jobs:
         with:
           context: .
           platforms: linux/amd64
-          build-args: |
-            INIT_SCRIPT_PATH=init_scripts/init_full.sh
-            BASE_IMAGE=ubuntu:rolling
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/${{ env.IMAGE_NAME }}:latest

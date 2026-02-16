@@ -1,8 +1,8 @@
-# Development container based on Ubuntu 24.04
-# Build: docker build -t devcontainer .
-# Run:   docker run --rm -it devcontainer
+# Development container based on Ubuntu
+# Build: just build
+# Run:   just run
 
-FROM ubuntu:24.04
+FROM ubuntu:25.10
 
 ARG USERNAME=dev
 ARG USER_UID=1001
@@ -26,7 +26,7 @@ RUN \
   && rm -rf /var/lib/apt/lists/*
 
 RUN \
-  useradd -m -s ${USER_SHELL} -u ${USER_UID} ${USERNAME} && \
+  useradd -m -s ${USER_SHELL} --no-log-init -u ${USER_UID} ${USERNAME} && \
   usermod -aG sudo ${USERNAME} && \
   echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
   chsh -s ${USER_SHELL} root && \

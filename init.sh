@@ -28,7 +28,6 @@ readonly use_sudo
 readonly DOTFILES_REPO="BFoerschner"
 readonly LAZY_BOOTSTRAP_TIMEOUT=10
 readonly NVIM_SYNC_TIMEOUT_MS=600000
-readonly NVIM_SYNC_TIMEOUT_S=600
 
 # Activates mise in the current shell. Needed after mise install to make shims
 # available, and again in install_neovim_plugins which runs in a subcontext.
@@ -150,8 +149,6 @@ install_tpm() {
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
   fi
 
-  # tmux source fails during build (no server running) — this is expected
-  tmux source ~/.tmux.conf 2>/dev/null || true
   "$HOME"/.tmux/plugins/tpm/scripts/install_plugins.sh
 }
 

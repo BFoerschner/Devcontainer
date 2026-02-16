@@ -1,0 +1,10 @@
+{
+  "name": "bfoerschner devcontainer",
+  "image": "devcontainer_tmp",
+  "remoteUser": "dev",
+  "overrideCommand": true,
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/dev/.ssh,type=bind,consistency=cached",
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ]
+}

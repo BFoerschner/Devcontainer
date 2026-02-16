@@ -8,7 +8,7 @@ build-nocache:
   docker build --no-cache -t devcontainer_tmp .
 
 run:
-  docker run -v $HOME/.ssh/:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock -e DISPLAY="host.docker.internal:0" --network=host --name devcontainer --entrypoint bash -i -t devcontainer_tmp
+  docker run -v $HOME/.ssh/:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock -e DISPLAY="host.docker.internal:0" --network=host --name devcontainer --entrypoint tmux -i -t devcontainer_tmp -u new-session -A -s main
 
 run-tmp:
-  docker run -v $HOME/.ssh/:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock -e DISPLAY="host.docker.internal:0" --network=host --rm --name devcontainer --entrypoint bash -i -t devcontainer_tmp
+  docker run -v $HOME/.ssh/:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock -e DISPLAY="host.docker.internal:0" --network=host --rm --name devcontainer --entrypoint tmux -i -t devcontainer_tmp -u new-session -A -s main

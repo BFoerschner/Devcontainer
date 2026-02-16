@@ -2,7 +2,7 @@
 # Build: just build
 # Run:   just run
 
-FROM ubuntu:25.10
+FROM ubuntu:24.04
 
 ARG USERNAME=dev
 ARG USER_UID=1001
@@ -30,9 +30,9 @@ RUN \
   usermod -aG sudo ${USERNAME} && \
   echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
   chsh -s ${USER_SHELL} root && \
-  chsh -s .local/share/mise/shims/nu ${USERNAME}
+  chsh -s ${USER_SHELL} ${USERNAME}
 
 USER ${USERNAME}
 WORKDIR ${USER_HOME}
 RUN /build/init.sh
-ENTRYPOINT ["tmux", "-u", "new-session", "-A", "-s", "main"]
+CMD ["/bin/bash"]

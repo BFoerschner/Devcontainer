@@ -4,7 +4,7 @@ ARG USERNAME=dev
 ARG USER_UID=1001
 ARG USER_SHELL=/bin/bash
 ARG SNAPSHOT_DATE=""
-ARG GITHUB_USER=""
+ARG USER_GITHUB=""
 SHELL ["/bin/bash", "-c", "-o", "pipefail"]
 
 # hadolint ignore=DL3008
@@ -60,7 +60,7 @@ USER ${USERNAME}
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 # Dotfiles
 RUN --mount=type=secret,id=GITHUB_USER_PAT,uid=${USER_UID} \
-  if [ -z "${GITHUB_USER}" ]; then \
+  if [ -z "${USER_GITHUB}" ]; then \
   echo "[dotfiles] No GITHUB_USER set, skipping chezmoi install"; \
   else \
   sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "/home/${USERNAME}/.local/bin" \
@@ -68,13 +68,13 @@ RUN --mount=type=secret,id=GITHUB_USER_PAT,uid=${USER_UID} \
   GITHUB_TOKEN="$(cat /run/secrets/GITHUB_USER_PAT)"; \
   export GITHUB_TOKEN; \
   fi \
-  && "/home/${USERNAME}/.local/bin/chezmoi" init --apply "${GITHUB_USER}"; \
+  && "/home/${USERNAME}/.local/bin/chezmoi" init --apply "${USER_GITHUB}"; \
   fi
 
 # Import SSH public keys from GitHub
 RUN mkdir -p ~/.ssh && chmod 700 ~/.ssh && \
-  if [ -n "${GITHUB_USER}" ]; then \
-  curl -fsSL "https://github.com/${GITHUB_USER}.keys" > ~/.ssh/authorized_keys && \
+  if [ -n "${USER_GITHUB}" ]; then \
+  curl -fsSL "https://github.com/${USER_GITHUB}.keys" > ~/.ssh/authorized_keys && \
   chmod 600 ~/.ssh/authorized_keys; \
   fi
 

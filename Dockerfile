@@ -7,6 +7,12 @@ ARG SNAPSHOT_DATE=""
 ARG GITHUB_USER=""
 SHELL ["/bin/bash", "-c", "-o", "pipefail"]
 
+# hadolint ignore=DL3008
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  ca-certificates \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN SNAP="${SNAPSHOT_DATE:-$(date -u +%Y%m%dT000000Z)}" && \
   echo "$SNAP" > /etc/apt-snapshot-date && \
   sed -i "s|http://archive.ubuntu.com/ubuntu|http://snapshot.ubuntu.com/ubuntu/${SNAP}|g" /etc/apt/sources.list.d/ubuntu.sources && \
@@ -32,7 +38,6 @@ RUN \
   rsync \
   openssh-client \
   openssh-server \
-  ca-certificates \
   unminimize \
   && (yes || true) | unminimize \
   && apt-get clean \

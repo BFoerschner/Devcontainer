@@ -1,0 +1,68 @@
+[tools]
+docker-cli = "29.3"
+docker-compose = "5.0"
+
+[tasks.build]
+description = "Build the devcontainer image"
+run = """
+docker build \
+  --secret id=GITHUB_USER_PAT,env=GITHUB_TOKEN \
+  --build-arg GITHUB_USER="${GITHUB_USER:-BFoerschner}" \
+  --progress=plain \
+  -t devcontainer \
+  .
+"""
+
+[tasks.build-no-cache]
+description = "Build the devcontainer image"
+run = """
+docker build \
+  --no-cache \
+  --secret id=GITHUB_USER_PAT,env=GITHUB_TOKEN \
+  --build-arg GITHUB_USER="${GITHUB_USER:-BFoerschner}" \
+  --progress=plain \
+  -t devcontainer \
+  .
+"""
+
+[tasks.start]
+description = "Start the devcontainer"
+run = """
+docker run -d --name devcontainer \
+  -v /etc/localtime:/etc/localtime:ro \
+  -e DISPLAY="$ip:0" \
+  -p 2222:22 \
+  devcontainer
+"""
+
+[tasks.start-with-x11]
+description = "Connect to the devcontainer with X11"
+run = """
+if (command -v xhost > /dev/null); then
+  ip=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
+  xhost +"$ip"
+
+  docker run -d --name devcontainer \
+    -v /etc/localtime:/etc/localtime:ro \
+    -e DISPLAY="$ip:0" \
+    -p 2222:22 \
+    devcontainer
+else
+  echo "xhost not found"
+fi
+"""
+
+[tasks.connect]
+description = "Connect to the devcontainer"
+run = """
+ssh -A -p 2222 dev@localhost
+"""
+
+[tasks.stop-and-remove]
+description = "Stop the devcontainer"
+run = """
+if (command -v xhost > /dev/null); then
+  xhost -
+fi
+docker rm -f devcontainer
+"""

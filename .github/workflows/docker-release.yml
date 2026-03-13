@@ -36,6 +36,8 @@ jobs:
         with:
           context: .
           platforms: linux/amd64
+          secrets: |
+            GITHUB_USER_PAT=${{ secrets.GH_PAT }}
           build-args: |
             USER_GITHUB=BFoerschner
           push: true

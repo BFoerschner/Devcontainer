@@ -59,13 +59,13 @@ USER ${USERNAME}
 # hadolint ignore=SC2016
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 # Dotfiles
-RUN --mount=type=secret,id=GITHUB_USER_PAT,uid=${USER_UID} \
+RUN --mount=type=secret,id=GITHUB_TOKEN,uid=${USER_UID} \
   if [ -z "${USER_GITHUB}" ]; then \
   echo "[dotfiles] No GITHUB_USER set, skipping chezmoi install"; \
   else \
   sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "/home/${USERNAME}/.local/bin" \
-  && if [ -f /run/secrets/GITHUB_USER_PAT ]; then \
-  GITHUB_TOKEN="$(cat /run/secrets/GITHUB_USER_PAT)"; \
+  && if [ -f /run/secrets/GITHUB_TOKEN ]; then \
+  GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)"; \
   export GITHUB_TOKEN; \
   fi \
   && "/home/${USERNAME}/.local/bin/chezmoi" init --apply "${USER_GITHUB}"; \

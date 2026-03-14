@@ -6,7 +6,7 @@ docker-compose = "5.0"
 description = "Build the devcontainer image"
 run = """
 docker build \
-  --secret id=GITHUB_USER_PAT,env=GITHUB_TOKEN \
+  --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN \
   --build-arg GITHUB_USER="${GITHUB_USER:-BFoerschner}" \
   --progress=plain \
   -t devcontainer \
@@ -18,7 +18,7 @@ description = "Build the devcontainer image"
 run = """
 docker build \
   --no-cache \
-  --secret id=GITHUB_USER_PAT,env=GITHUB_TOKEN \
+  --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN \
   --build-arg GITHUB_USER="${GITHUB_USER:-BFoerschner}" \
   --progress=plain \
   -t devcontainer \

@@ -1,13 +1,14 @@
 [tools]
 docker-cli = "29.3"
 docker-compose = "5.0"
+sops = "3.12"
 
 [tasks.build]
 description = "Build the devcontainer image"
 run = """
 docker build \
   --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN \
-  --build-arg GITHUB_USER="${GITHUB_USER:-BFoerschner}" \
+  --build-arg USER_GITHUB="${USER_GITHUB:-BFoerschner}" \
   ${SNAPSHOT_DATE:+--build-arg SNAPSHOT_DATE="$SNAPSHOT_DATE"} \
   --progress=plain \
   -t devcontainer \
@@ -20,7 +21,7 @@ run = """
 docker build \
   --no-cache \
   --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN \
-  --build-arg GITHUB_USER="${GITHUB_USER:-BFoerschner}" \
+  --build-arg USER_GITHUB="${USER_GITHUB:-BFoerschner}" \
   ${SNAPSHOT_DATE:+--build-arg SNAPSHOT_DATE="$SNAPSHOT_DATE"} \
   --progress=plain \
   -t devcontainer \
@@ -57,7 +58,11 @@ fi
 [tasks.connect]
 description = "Connect to the devcontainer"
 run = """
-ssh -A -p 2222 dev@localhost
+REMOTE_GPG_SOCKET="/home/dev/.gnupg/S.gpg-agent"
+LOCAL_GPG_SOCKET="$(gpgconf --list-dirs agent-extra-socket)"
+ssh -A -p 2222 \
+  -R "${REMOTE_GPG_SOCKET}:${LOCAL_GPG_SOCKET}" \
+  dev@localhost
 """
 
 [tasks.snapshot-date]

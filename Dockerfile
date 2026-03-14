@@ -46,7 +46,8 @@ RUN \
 RUN \
   mkdir -p /run/sshd && \
   sed -i 's/#\?AllowAgentForwarding.*/AllowAgentForwarding yes/' /etc/ssh/sshd_config && \
-  sed -i 's/#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+  sed -i 's/#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config && \
+  echo 'StreamLocalBindUnlink yes' >> /etc/ssh/sshd_config
 
 RUN \
   groupadd -f docker && \
@@ -71,11 +72,12 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,uid=${USER_UID} \
   && "/home/${USERNAME}/.local/bin/chezmoi" init --apply "${USER_GITHUB}"; \
   fi
 
-# Import SSH public keys from GitHub
+# Import SSH and GPG public keys from GitHub
 RUN mkdir -p ~/.ssh && chmod 700 ~/.ssh && \
   if [ -n "${USER_GITHUB}" ]; then \
   curl -fsSL "https://github.com/${USER_GITHUB}.keys" > ~/.ssh/authorized_keys && \
-  chmod 600 ~/.ssh/authorized_keys; \
+  chmod 600 ~/.ssh/authorized_keys && \
+  curl -fsSL "https://github.com/${USER_GITHUB}.gpg" | gpg --import; \
   fi
 
 WORKDIR /home/${USERNAME}

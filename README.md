@@ -23,6 +23,8 @@ mise run connect
 | `start` | Run the container in the background, mapping port 2222 to 22. |
 | `start-with-x11` | Start with X11 forwarding (macOS, requires `xhost`). |
 | `connect` | SSH into the running container (`ssh -A -p 2222 dev@localhost`). |
+| `snapshot-date` | Print the APT snapshot date baked into the image. |
+| `reproduce-build` | Extract the snapshot date from an existing container or image and rebuild with it. |
 | `stop-and-remove` | Stop and remove the container. |
 
 ## How dotfiles and tools are installed
@@ -68,6 +70,33 @@ GITHUB_USER=your-username mise run build
 ```
 
 The token is passed as a [Docker build secret](https://docs.docker.com/build/building/secrets/) and does not persist in the final image.
+
+## Reproducible builds
+
+APT packages are installed from [snapshot.ubuntu.com](http://snapshot.ubuntu.com), which serves the state of the Ubuntu archive at a given point in time. By default, the build uses the current date. The chosen snapshot date is written to `/etc/apt-snapshot-date` inside the image.
+
+To retrieve the snapshot date, pass a running container name/ID or an image name (defaults to `devcontainer`):
+
+```sh
+mise run snapshot-date              # running container or image named "devcontainer"
+mise run snapshot-date -- myimage   # a different image or container
+```
+
+To reproduce a build from an existing container or image in one step:
+
+```sh
+mise run reproduce-build -- myimage
+```
+
+This extracts the snapshot date and runs `mise run build` with it. It fails if the snapshot date cannot be retrieved.
+
+You can also set `SNAPSHOT_DATE` manually:
+
+```sh
+SNAPSHOT_DATE=20260314T000000Z mise run build
+```
+
+This pins all APT packages to the versions that were available on that date, making the base system layer fully reproducible regardless of when the build runs.
 
 ## Build arguments
 

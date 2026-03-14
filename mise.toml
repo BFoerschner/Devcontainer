@@ -8,18 +8,20 @@ run = """
 docker build \
   --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN \
   --build-arg GITHUB_USER="${GITHUB_USER:-BFoerschner}" \
+  ${SNAPSHOT_DATE:+--build-arg SNAPSHOT_DATE="$SNAPSHOT_DATE"} \
   --progress=plain \
   -t devcontainer \
   .
 """
 
 [tasks.build-no-cache]
-description = "Build the devcontainer image"
+description = "Build the devcontainer image without cache"
 run = """
 docker build \
   --no-cache \
   --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN \
   --build-arg GITHUB_USER="${GITHUB_USER:-BFoerschner}" \
+  ${SNAPSHOT_DATE:+--build-arg SNAPSHOT_DATE="$SNAPSHOT_DATE"} \
   --progress=plain \
   -t devcontainer \
   .
@@ -56,6 +58,45 @@ fi
 description = "Connect to the devcontainer"
 run = """
 ssh -A -p 2222 dev@localhost
+"""
+
+[tasks.snapshot-date]
+description = "Print the APT snapshot date from a container or image"
+usage = "arg \"target\" default=\"devcontainer\" help=\"Container name/ID or image name\""
+run = """
+target="${usage_target}"
+if docker container inspect "$target" &>/dev/null; then
+  docker exec "$target" cat /etc/apt-snapshot-date
+else
+  docker run --rm "$target" cat /etc/apt-snapshot-date
+fi
+"""
+
+[tasks.reproduce-build]
+description = "Rebuild using the snapshot date from an existing container or image"
+usage = "arg \"source\" help=\"Container name/ID or image name to reproduce from\""
+run = """
+source="${usage_source}"
+if [ -z "$source" ]; then
+  echo "Usage: mise run reproduce-build -- <container-or-image>" >&2
+  exit 1
+fi
+
+echo "Extracting snapshot date from '$source'..."
+if docker container inspect "$source" &>/dev/null; then
+  SNAPSHOT_DATE="$(docker exec "$source" cat /etc/apt-snapshot-date 2>/dev/null)"
+else
+  SNAPSHOT_DATE="$(docker run --rm "$source" cat /etc/apt-snapshot-date 2>/dev/null)"
+fi
+
+if [ -z "$SNAPSHOT_DATE" ]; then
+  echo "Error: could not retrieve snapshot date from '$source'" >&2
+  exit 1
+fi
+
+echo "Reproducing build with snapshot date: $SNAPSHOT_DATE"
+export SNAPSHOT_DATE
+mise run build
 """
 
 [tasks.stop-and-remove]
